@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generation of Miracles — Quiz Kuroko no Basket</title>
+<title>Generation of Miracles — Arcade Kuroko no Basket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --court:#0e1420;
-    --court-line:#1d2738;
+    --court:#0b0f17;
+    --court-line:#161e2c;
     --seirin-red:#d6321f;
-    --seirin-red-dim:#8c2316;
+    --seirin-red-bright:#ef3a23;
     --kiseki-gold:#e8b13d;
+    --touou-blue:#1d4ed8;
     --paper:#f4ede0;
     --ghost:#7d8aa3;
     --success:#3f9c5f;
-    --lock:#4a5468;
-    font-family: 'Oswald', 'Arial Narrow', sans-serif;
-  }
-  @font-face{
-    font-family:'Oswald';
-    src:local('Oswald');
+    --lock:#3a4256;
+    --panel-bg: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.01));
   }
   *{box-sizing:border-box;}
   body{
     margin:0;
     min-height:100vh;
+    font-family:'Inter',sans-serif;
     background:
-      radial-gradient(circle at 20% 0%, rgba(214,50,31,0.08), transparent 45%),
-      radial-gradient(circle at 80% 100%, rgba(232,177,61,0.06), transparent 45%),
+      radial-gradient(circle at 15% -5%, rgba(214,50,31,0.10), transparent 40%),
+      radial-gradient(circle at 90% 105%, rgba(232,177,61,0.08), transparent 45%),
       repeating-linear-gradient(0deg, var(--court) 0px, var(--court) 78px, var(--court-line) 79px, var(--court) 80px),
       var(--court);
     color:var(--paper);
@@ -36,34 +36,36 @@
     justify-content:center;
     padding:40px 16px 80px;
   }
-  .wrap{width:100%;max-width:720px;}
+  .wrap{width:100%;max-width:780px;}
 
   .eyebrow{
     text-transform:uppercase;
     letter-spacing:.35em;
     font-size:11px;
     color:var(--kiseki-gold);
-    margin:0 0 6px;
+    margin:0 0 8px;
+    font-weight:600;
   }
   h1.brand{
-    font-family:Georgia, 'Times New Roman', serif;
-    font-weight:900;
-    font-style:italic;
-    font-size:clamp(34px,7vw,54px);
+    font-family:'Anton',sans-serif;
+    font-weight:400;
+    font-size:clamp(40px,8vw,64px);
     margin:0 0 4px;
-    letter-spacing:-1px;
-    line-height:1;
+    letter-spacing:1px;
+    line-height:.95;
+    text-transform:uppercase;
   }
   h1.brand span{color:var(--seirin-red);}
-  .sub{color:var(--ghost);font-size:14px;margin:0 0 36px;letter-spacing:.03em;}
+  .sub{color:var(--ghost);font-size:14px;margin:0 0 36px;letter-spacing:.02em;line-height:1.5;}
 
   .panel{
-    background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
+    background:var(--panel-bg);
     border:1px solid rgba(255,255,255,0.08);
     border-left:3px solid var(--seirin-red);
-    border-radius:4px;
-    padding:32px clamp(18px,5vw,40px);
+    border-radius:6px;
+    padding:32px clamp(18px,5vw,42px);
     margin-bottom:24px;
+    box-shadow:0 20px 50px -25px rgba(0,0,0,0.6);
   }
 
   label{
@@ -73,52 +75,83 @@
     letter-spacing:.15em;
     color:var(--ghost);
     margin:18px 0 6px;
+    font-weight:600;
   }
   label:first-of-type{margin-top:0;}
   input[type=text], input[type=number]{
     width:100%;
     background:rgba(0,0,0,0.3);
     border:1px solid rgba(255,255,255,0.15);
-    border-radius:3px;
-    padding:12px 14px;
+    border-radius:4px;
+    padding:13px 14px;
     color:var(--paper);
     font-size:16px;
     font-family:inherit;
     outline:none;
-    transition:border-color .15s;
+    transition:border-color .15s, box-shadow .15s;
   }
-  input:focus{border-color:var(--kiseki-gold);}
+  input:focus{border-color:var(--kiseki-gold); box-shadow:0 0 0 3px rgba(232,177,61,0.12);}
 
   .btn{
     appearance:none;
     border:none;
     cursor:pointer;
-    font-family:inherit;
+    font-family:'Inter',sans-serif;
     text-transform:uppercase;
     letter-spacing:.12em;
-    font-weight:600;
+    font-weight:700;
     font-size:13px;
     padding:14px 28px;
-    border-radius:3px;
+    border-radius:4px;
     background:var(--seirin-red);
     color:var(--paper);
-    transition:transform .12s, background .15s;
+    transition:transform .12s, background .15s, box-shadow .15s;
+    box-shadow:0 8px 20px -10px rgba(214,50,31,0.6);
   }
-  .btn:hover{background:#ef3a23;}
+  .btn:hover{background:var(--seirin-red-bright); box-shadow:0 10px 26px -10px rgba(214,50,31,0.75);}
   .btn:active{transform:scale(.97);}
-  .btn:disabled{background:var(--lock);cursor:not-allowed;color:var(--ghost);}
+  .btn:disabled{background:var(--lock);cursor:not-allowed;color:var(--ghost);box-shadow:none;}
   .btn-row{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;}
-  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--paper);}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--paper);box-shadow:none;}
   .btn-ghost:hover{border-color:var(--kiseki-gold);background:transparent;color:var(--kiseki-gold);}
 
   .error{color:var(--seirin-red);font-size:13px;margin-top:10px;min-height:16px;}
 
-  /* level cards */
+  .crumb{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ghost);margin-bottom:18px;display:flex;gap:8px;align-items:center;}
+  .crumb b{color:var(--kiseki-gold);font-weight:700;}
+  .crumb .sep{color:var(--lock);}
+
+  .games{display:grid;grid-template-columns:1fr;gap:16px;}
+  .game-card{
+    position:relative;
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:6px;
+    padding:24px;
+    cursor:pointer;
+    background:rgba(255,255,255,0.025);
+    transition:border-color .15s, background .15s, transform .12s;
+    overflow:hidden;
+  }
+  .game-card::before{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(120deg, transparent 40%, rgba(232,177,61,0.06) 50%, transparent 60%);
+    opacity:0;transition:opacity .25s;
+  }
+  .game-card:not(.locked):hover{border-color:var(--kiseki-gold);transform:translateY(-2px);}
+  .game-card:not(.locked):hover::before{opacity:1;}
+  .game-card.locked{cursor:not-allowed;opacity:.5;}
+  .game-icon{font-size:30px;margin-bottom:10px;}
+  .game-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;text-transform:uppercase;}
+  .game-desc{font-size:13px;color:var(--ghost);margin-top:6px;line-height:1.5;}
+  .game-meta{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
+  .pill{font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:20px;border:1px solid var(--lock);color:var(--ghost);}
+  .pill.done{border-color:var(--success);color:var(--success);}
+
   .levels{display:grid;grid-template-columns:1fr;gap:14px;}
   .level-card{
     position:relative;
     border:1px solid rgba(255,255,255,0.1);
-    border-radius:4px;
+    border-radius:5px;
     padding:20px 22px;
     display:flex;
     align-items:center;
@@ -128,34 +161,58 @@
     background:rgba(255,255,255,0.02);
     transition:border-color .15s, background .15s;
   }
-  .level-card.locked{cursor:not-allowed;opacity:.55;}
+  .level-card.locked{cursor:not-allowed;opacity:.5;}
   .level-card:not(.locked):hover{border-color:var(--kiseki-gold);background:rgba(232,177,61,0.04);}
   .level-num{
-    font-family:Georgia,serif;
-    font-style:italic;
-    font-weight:900;
-    font-size:30px;
-    width:46px;
-    color:var(--seirin-red-dim);
+    font-family:'Anton',sans-serif;
+    font-size:32px;
+    width:50px;
+    color:var(--seirin-red);
+    opacity:.55;
   }
-  .level-card[data-status="done"] .level-num{color:var(--success);}
-  .level-card.locked .level-num{color:var(--lock);}
+  .level-card[data-status="done"] .level-num{color:var(--success);opacity:1;}
+  .level-card.locked .level-num{color:var(--lock);opacity:1;}
   .level-info{flex:1;}
-  .level-title{font-size:18px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;}
+  .level-title{font-size:17px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
   .level-meta{font-size:12px;color:var(--ghost);margin-top:3px;}
-  .level-tag{
-    font-size:10px;text-transform:uppercase;letter-spacing:.1em;
-    padding:4px 9px;border-radius:20px;border:1px solid currentColor;
-  }
+  .level-tag{font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:20px;border:1px solid currentColor;white-space:nowrap;}
   .tag-open{color:var(--kiseki-gold);}
   .tag-done{color:var(--success);}
   .tag-locked{color:var(--lock);}
 
-  /* quiz */
-  .q-progress{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ghost);margin-bottom:14px;}
+  .q-progress{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ghost);margin-bottom:14px;font-weight:600;}
   .q-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin-bottom:30px;overflow:hidden;}
-  .q-bar-fill{height:100%;background:var(--seirin-red);transition:width .25s;}
-  .q-text{font-size:22px;line-height:1.35;margin:0 0 26px;font-weight:500;}
+  .q-bar-fill{height:100%;background:linear-gradient(90deg,var(--seirin-red),var(--kiseki-gold));transition:width .25s;}
+
+  .q-quote{
+    font-family:'Bebas Neue',sans-serif;
+    font-size:clamp(22px,4.5vw,30px);
+    line-height:1.3;
+    margin:0 0 26px;
+    color:var(--paper);
+    border-left:3px solid var(--kiseki-gold);
+    padding-left:18px;
+  }
+  .q-quote::before{content:"\201C ";color:var(--kiseki-gold);}
+  .q-quote::after{content:" \201D";color:var(--kiseki-gold);}
+
+  .q-text{font-size:21px;line-height:1.35;margin:0 0 26px;font-weight:600;}
+
+  .q-image-wrap{
+    width:100%;
+    max-width:280px;
+    aspect-ratio:3/4;
+    margin:0 auto 26px;
+    border-radius:6px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.12);
+    background:#161e2c;
+  }
+  .q-image-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+  .crop-tete img{object-position:top center; transform:scale(1.6); transform-origin:top center;}
+  .crop-maillot img{object-position:60% center; transform:scale(1.5);}
+  .pixelate-canvas{width:100%;height:100%;image-rendering:pixelated;display:block;}
+
   .options{display:grid;gap:10px;}
   .opt{
     text-align:left;
@@ -163,24 +220,35 @@
     background:rgba(255,255,255,0.02);
     color:var(--paper);
     padding:14px 16px;
-    border-radius:3px;
+    border-radius:4px;
     cursor:pointer;
     font-size:15px;
     font-family:inherit;
+    font-weight:500;
     transition:border-color .12s, background .12s;
   }
   .opt:hover{border-color:var(--kiseki-gold);}
   .opt.selected{border-color:var(--kiseki-gold);background:rgba(232,177,61,0.08);}
-  .opt.correct{border-color:var(--success);background:rgba(63,156,95,0.12);}
-  .opt.wrong{border-color:var(--seirin-red);background:rgba(214,50,31,0.12);}
+  .opt.correct{border-color:var(--success);background:rgba(63,156,95,0.14);}
+  .opt.wrong{border-color:var(--seirin-red);background:rgba(214,50,31,0.14);}
   .opt:disabled{cursor:default;}
 
   .result-score{
-    font-family:Georgia,serif;font-style:italic;font-weight:900;
-    font-size:54px;color:var(--kiseki-gold);margin:0;
+    font-family:'Anton',sans-serif;
+    font-size:58px;color:var(--kiseki-gold);margin:0;
+    line-height:1;
   }
-  .result-label{color:var(--ghost);font-size:13px;text-transform:uppercase;letter-spacing:.15em;}
-  .send-status{font-size:12px;color:var(--ghost);margin-top:14px;}
+  .result-label{color:var(--ghost);font-size:12px;text-transform:uppercase;letter-spacing:.15em;font-weight:600;}
+  .result-status{font-size:15px;margin-top:10px;font-weight:600;}
+  .send-status{font-size:12px;color:var(--ghost);margin-top:16px;}
+
+  .recap{margin-top:22px;border-top:1px solid rgba(255,255,255,0.08);padding-top:18px;}
+  .recap-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:13px;line-height:1.4;}
+  .recap-icon{flex-shrink:0;width:18px;}
+  .recap-icon.ok{color:var(--success);}
+  .recap-icon.ko{color:var(--seirin-red);}
+  .recap-q{color:var(--paper);}
+  .recap-a{color:var(--ghost);margin-top:2px;}
 
   .hidden{display:none !important;}
   footer{text-align:center;color:var(--ghost);font-size:11px;margin-top:30px;letter-spacing:.05em;}
@@ -189,11 +257,10 @@
 <body>
 <div class="wrap">
 
-  <p class="eyebrow">Quiz officieux</p>
+  <p class="eyebrow">Arcade non officielle</p>
   <h1 class="brand">Generation of <span>Miracles</span></h1>
-  <p class="sub">Teste tes connaissances sur Kuroko no Basket — 3 niveaux, 1 seul chemin.</p>
+  <p class="sub">3 jeux, 3 niveaux chacun. Bienvenue sur le terrain.</p>
 
-  <!-- ÉTAPE 1 : INSCRIPTION -->
   <section id="screen-register" class="panel">
     <label for="reg-nom">Nom</label>
     <input id="reg-nom" type="text" placeholder="Kuroko" autocomplete="family-name">
@@ -210,124 +277,149 @@
     <p class="error" id="reg-error"></p>
   </section>
 
-  <!-- ÉTAPE 2 : CHOIX DU NIVEAU -->
-  <section id="screen-levels" class="panel hidden">
+  <section id="screen-games" class="panel hidden">
     <p class="eyebrow" style="margin-bottom:18px;">Bienvenue, <span id="player-name"></span></p>
-    <div class="levels">
-      <div class="level-card" data-level="facile" data-status="open">
-        <div class="level-num">01</div>
-        <div class="level-info">
-          <div class="level-title">Facile</div>
-          <div class="level-meta">Les bases — tout le monde commence ici.</div>
-        </div>
-        <div class="level-tag tag-open" id="tag-facile">Ouvert</div>
-      </div>
-      <div class="level-card locked" data-level="moyen" data-status="locked">
-        <div class="level-num">02</div>
-        <div class="level-info">
-          <div class="level-title">Moyen</div>
-          <div class="level-meta">Débloqué après le niveau Facile.</div>
-        </div>
-        <div class="level-tag tag-locked" id="tag-moyen">Verrouillé</div>
-      </div>
-      <div class="level-card locked" data-level="difficile" data-status="locked">
-        <div class="level-num">03</div>
-        <div class="level-info">
-          <div class="level-title">Difficile</div>
-          <div class="level-meta">Débloqué après le niveau Moyen.</div>
-        </div>
-        <div class="level-tag tag-locked" id="tag-difficile">Verrouillé</div>
-      </div>
-    </div>
+    <div class="games" id="games-wrap"></div>
   </section>
 
-  <!-- ÉTAPE 3 : QUIZ -->
+  <section id="screen-levels" class="panel hidden">
+    <p class="crumb"><span id="crumb-back" style="cursor:pointer;text-decoration:underline;">Jeux</span><span class="sep">/</span><b id="crumb-game"></b></p>
+    <div class="levels" id="levels-wrap"></div>
+  </section>
+
   <section id="screen-quiz" class="panel hidden">
     <p class="q-progress" id="q-progress"></p>
     <div class="q-bar"><div class="q-bar-fill" id="q-bar-fill"></div></div>
-    <p class="q-text" id="q-text"></p>
+    <div id="q-image-slot"></div>
+    <div id="q-content"></div>
     <div class="options" id="q-options"></div>
   </section>
 
-  <!-- ÉTAPE 4 : RÉSULTAT -->
   <section id="screen-result" class="panel hidden">
     <p class="result-label" id="result-level"></p>
     <p class="result-score" id="result-score"></p>
-    <p class="result-label" id="result-status"></p>
+    <p class="result-status" id="result-status"></p>
     <p class="send-status" id="send-status"></p>
+    <div class="recap" id="recap"></div>
     <div class="btn-row">
       <button class="btn" id="btn-back-levels">Retour aux niveaux</button>
     </div>
   </section>
 
-  <footer>Fan quiz non officiel — Kuroko no Basket © Tadatoshi Fujimaki / Shueisha</footer>
+  <footer>Fan arcade non officiel — Kuroko no Basket © Tadatoshi Fujimaki / Shueisha</footer>
 </div>
 
 <script>
-/* ============================================================
-   CONFIGURATION — à remplir avant de publier le site
-   ============================================================ */
 const CONFIG = {
-  // 1) Colle ici l'URL de ton webhook Discord (Paramètres du salon
-  //    > Intégrations > Webhooks > Nouveau webhook > Copier l'URL)
   DISCORD_WEBHOOK_URL: "https://discord.com/api/webhooks/1517605118051356744/AEtfwWoh1Bq6czzwOU6gIPl4X-Ui5l2bz3buRmhRhcllLEtwTe5jrQIy47ztz7Z7s63N",
-
-  // 2) Optionnel : pour recevoir aussi par email sans backend,
-  //    crée un compte gratuit sur https://formsubmit.co et mets
-  //    ton adresse ici. Laisse vide si tu n'utilises que Discord.
-  FORMSUBMIT_EMAIL: "" // ex: "tonadresse@email.com"
+  FORMSUBMIT_EMAIL: ""
 };
 
-/* ============================================================
-   BANQUE DE QUESTIONS
-   ============================================================ */
-const QUESTIONS = {
-  facile: [
-    { q: "Dans quel lycée joue Kuroko au début de la série ?", options: ["Seirin", "Touou", "Rakuzan", "Kaijo"], correct: 0 },
-    { q: "Quelle est la particularité principale de Kuroko sur le terrain ?", options: ["Il saute très haut", "Il est presque invisible", "Il tire à 3 points", "Il est très grand"], correct: 1 },
-    { q: "Comment s'appelle le capitaine de Seirin ?", options: ["Kagami Taiga", "Hyuga Junpei", "Riko Aida", "Izuki Shun"], correct: 1 },
-    { q: "Combien de membres comptait la 'Génération des Miracles' à l'origine (sans Kuroko) ?", options: ["3", "4", "5", "6"], correct: 2 },
-    { q: "Quel est le prénom du partenaire de Kuroko, le 'lumière' de son ombre ?", options: ["Aomine", "Kagami", "Kise", "Midorima"], correct: 1 },
-  ],
-  moyen: [
-    { q: "Quel surnom porte Aomine Daiki lié à sa puissance ?", options: ["Le Roi sans couronne", "Le Tigre", "La Lumière absolue", "Le Joueur le plus fort de Teiko"], correct: 3 },
-    { q: "Quel est l'objet fétiche que Midorima emporte toujours avec lui ?", options: ["Un porte-bonheur du jour", "Une montre", "Un bandana", "Des lunettes"], correct: 0 },
-    { q: "Quelle équipe Kise Ryota représente-t-il ?", options: ["Touou", "Shutoku", "Kaijo", "Yosen"], correct: 2 },
-    { q: "Quel est le surnom de Murasakibara Atsushi ?", options: ["Le Géant tendre", "Le Mur", "Le Roi sans couronne", "Le Tigre de Seirin"], correct: 1 },
-    { q: "Qui entraîne l'équipe de Seirin ?", options: ["Riko Aida", "Junpei Hyuga", "Kagetora Aida", "Shinji Koganei"], correct: 0 },
-    { q: "Quel lycée Akashi Seijuro dirige-t-il en tant que capitaine ?", options: ["Touou", "Rakuzan", "Yosen", "Shutoku"], correct: 1 },
-  ],
-  difficile: [
-    { q: "Quel est le nom de la technique de passe signature de Kuroko ?", options: ["Ankle Break", "Misdirection", "Formless Shot", "Zone"], correct: 1 },
-    { q: "Quel est le nom complet de l'état mental extrême atteint par certains joueurs en fin de série ?", options: ["La Zone", "L'Œil Empereur", "Le Mode Berserk", "La Vision Parfaite"], correct: 0 },
-    { q: "Qui était le capitaine de Teiko avant qu'Akashi ne développe sa double personnalité ?", options: ["Akashi lui-même", "Personne d'autre", "Nijimura Shuzo", "Haizaki Shogo"], correct: 2 },
-    { q: "Quel joueur remplace Kise dans l'équipe de départ de Teiko avant son arrivée ?", options: ["Haizaki Shogo", "Hanamiya Makoto", "Kasamatsu Yukio", "Imayoshi Shoichi"], correct: 0 },
-    { q: "Quel est le nom du tir signature de Midorima, exécuté depuis n'importe quelle distance ?", options: ["Formless Shot", "Perfect Copy", "High-arc 3-pointer", "Phantom Shot"], correct: 2 },
-    { q: "Quelle est la capacité copiée de Kise appelée en japonais ?", options: ["Zone", "Perfect Copy", "Misdirection", "Emperor Eye"], correct: 1 },
-  ]
+const GAMES = {
+  trivia: {
+    label: "Quiz Connaissances",
+    icon: "\uD83C\uDFC0",
+    desc: "Questions classiques sur l'univers, les équipes et les personnages.",
+    levels: {
+      facile: { label: "Facile", questions: [
+        { q: "Dans quel lycée joue Kuroko au début de la série ?", options: ["Seirin", "Touou", "Rakuzan", "Kaijo"], correct: 0 },
+        { q: "Quelle est la particularité principale de Kuroko sur le terrain ?", options: ["Il saute très haut", "Il est presque invisible", "Il tire à 3 points", "Il est très grand"], correct: 1 },
+        { q: "Comment s'appelle le capitaine de Seirin ?", options: ["Kagami Taiga", "Hyuga Junpei", "Riko Aida", "Izuki Shun"], correct: 1 },
+        { q: "Combien de membres comptait la Génération des Miracles (sans Kuroko) ?", options: ["3", "4", "5", "6"], correct: 2 },
+        { q: "Quel est le prénom du partenaire de Kuroko, sa lumière ?", options: ["Aomine", "Kagami", "Kise", "Midorima"], correct: 1 },
+      ]},
+      moyen: { label: "Moyen", questions: [
+        { q: "Quel surnom porte Aomine Daiki lié à sa puissance ?", options: ["Le Roi sans couronne", "Le Tigre", "La Lumière absolue", "Le joueur le plus fort de Teiko"], correct: 3 },
+        { q: "Quel est l'objet fétiche que Midorima emporte toujours avec lui ?", options: ["Un porte-bonheur du jour", "Une montre", "Un bandana", "Des lunettes"], correct: 0 },
+        { q: "Quelle équipe Kise Ryota représente-t-il ?", options: ["Touou", "Shutoku", "Kaijo", "Yosen"], correct: 2 },
+        { q: "Quel est le surnom de Murasakibara Atsushi ?", options: ["Le Géant tendre", "Le Mur", "Le Roi sans couronne", "Le Tigre de Seirin"], correct: 1 },
+        { q: "Qui entraîne l'équipe de Seirin ?", options: ["Riko Aida", "Junpei Hyuga", "Kagetora Aida", "Shinji Koganei"], correct: 0 },
+        { q: "Quel lycée Akashi Seijuro dirige-t-il en tant que capitaine ?", options: ["Touou", "Rakuzan", "Yosen", "Shutoku"], correct: 1 },
+      ]},
+      difficile: { label: "Difficile", questions: [
+        { q: "Quel est le nom de la technique de passe signature de Kuroko ?", options: ["Ankle Break", "Misdirection", "Formless Shot", "Zone"], correct: 1 },
+        { q: "Quel est le nom de l'état mental extrême atteint en fin de série ?", options: ["La Zone", "L'Œil Empereur", "Le Mode Berserk", "La Vision Parfaite"], correct: 0 },
+        { q: "Qui était capitaine de Teiko avant le changement de personnalité d'Akashi ?", options: ["Akashi lui-même", "Personne d'autre", "Nijimura Shuzo", "Haizaki Shogo"], correct: 2 },
+        { q: "Quel joueur Kise remplace-t-il dans l'équipe de départ de Teiko ?", options: ["Haizaki Shogo", "Hanamiya Makoto", "Kasamatsu Yukio", "Imayoshi Shoichi"], correct: 0 },
+        { q: "Quel est le tir signature de Midorima, exécuté depuis n'importe quelle distance ?", options: ["Formless Shot", "Perfect Copy", "High-arc 3-pointer", "Phantom Shot"], correct: 2 },
+        { q: "Comment s'appelle la capacité de copie de Kise ?", options: ["Zone", "Perfect Copy", "Misdirection", "Emperor Eye"], correct: 1 },
+      ]},
+    }
+  },
+  quote: {
+    label: "Devine la réplique",
+    icon: "\uD83D\uDCAC",
+    desc: "Une phrase culte, à toi de retrouver qui l'a prononcée.",
+    levels: {
+      facile: { label: "Facile", questions: [
+        { clue: "Je suis une ombre. Une ombre n'a pas besoin d'être vue.", options: ["Kuroko", "Kagami", "Aomine", "Riko"], correct: 0 },
+        { clue: "Le basket, c'est marrant quand on est fort.", options: ["Aomine", "Midorima", "Kise", "Murasakibara"], correct: 0 },
+        { clue: "Je deviendrai le joueur n°1 du Japon, et toi l'ombre n°1.", options: ["Kise", "Kagami", "Akashi", "Hyuga"], correct: 1 },
+        { clue: "Les bonnes choses arrivent à ceux qui s'entraînent dur.", options: ["Riko Aida", "Midorima", "Momoi", "Akashi"], correct: 0 },
+      ]},
+      moyen: { label: "Moyen", questions: [
+        { clue: "Oha-Asa ne se trompe jamais.", options: ["Midorima", "Takao", "Akashi", "Murasakibara"], correct: 0 },
+        { clue: "Je copie tout ce que je vois... mais jamais le cœur.", options: ["Kise", "Aomine", "Kuroko", "Kagami"], correct: 0 },
+        { clue: "Perdre, ce n'est pas une option pour moi.", options: ["Akashi", "Aomine", "Hyuga", "Kasamatsu"], correct: 0 },
+        { clue: "Tant que je m'amuse, peu importe le résultat.", options: ["Murasakibara", "Midorima", "Kise", "Imayoshi"], correct: 0 },
+        { clue: "Je suis absolu.", options: ["Akashi", "Aomine", "Nijimura", "Hanamiya"], correct: 0 },
+      ]},
+      difficile: { label: "Difficile", questions: [
+        { clue: "Sans lumière, une ombre n'est rien. Mais sans ombre, la lumière n'est qu'éblouissante.", options: ["Kuroko", "Riko", "Momoi", "Hyuga"], correct: 0 },
+        { clue: "Je ne joue pas pour gagner. Je joue pour ne jamais perdre.", options: ["Akashi", "Hanamiya", "Imayoshi", "Haizaki"], correct: 0 },
+        { clue: "La victoire ou rien, il n'y a pas d'entre-deux.", options: ["Akashi", "Aomine", "Midorima", "Nijimura"], correct: 0 },
+        { clue: "Un génie n'a pas besoin de s'entraîner... mais je m'entraîne quand même plus que les autres.", options: ["Midorima", "Kise", "Murasakibara", "Aomine"], correct: 0 },
+        { clue: "Je veux juste jouer contre des adversaires forts, c'est tout.", options: ["Aomine", "Kagami", "Kuroko", "Kise"], correct: 0 },
+      ]},
+    }
+  },
+  photo: {
+    label: "Devine le personnage",
+    icon: "\uD83D\uDDBC\uFE0F",
+    desc: "Niveau 1 : la tête. Niveau 2 : le maillot. Niveau 3 : pixelisé.",
+    levels: {
+      tete: { label: "Niveau 1 — La tête", crop: "tete", questions: [
+        { image: "images/kuroko.svg", options: ["Kuroko", "Kagami", "Kise", "Midorima"], correct: 0 },
+        { image: "images/aomine.svg", options: ["Aomine", "Akashi", "Murasakibara", "Kuroko"], correct: 0 },
+        { image: "images/kagami.svg", options: ["Kagami", "Aomine", "Kise", "Momoi"], correct: 0 },
+        { image: "images/kise.svg", options: ["Kise", "Midorima", "Kuroko", "Akashi"], correct: 0 },
+      ]},
+      maillot: { label: "Niveau 2 — Le maillot", crop: "maillot", questions: [
+        { image: "images/midorima.svg", options: ["Midorima", "Murasakibara", "Kagami", "Aomine"], correct: 0 },
+        { image: "images/akashi.svg", options: ["Akashi", "Kise", "Kuroko", "Momoi"], correct: 0 },
+        { image: "images/murasakibara.svg", options: ["Murasakibara", "Aomine", "Midorima", "Kagami"], correct: 0 },
+        { image: "images/momoi.svg", options: ["Momoi", "Riko", "Kuroko", "Akashi"], correct: 0 },
+      ]},
+      pixel: { label: "Niveau 3 — Pixelisé", crop: "pixel", questions: [
+        { image: "images/kuroko.svg", options: ["Kuroko", "Kise", "Akashi", "Aomine"], correct: 0 },
+        { image: "images/aomine.svg", options: ["Aomine", "Kagami", "Midorima", "Murasakibara"], correct: 0 },
+        { image: "images/akashi.svg", options: ["Akashi", "Momoi", "Kuroko", "Kise"], correct: 0 },
+        { image: "images/midorima.svg", options: ["Midorima", "Murasakibara", "Aomine", "Kagami"], correct: 0 },
+      ]},
+    }
+  }
 };
 
-const LEVEL_ORDER = ["facile", "moyen", "difficile"];
-const LEVEL_LABEL = { facile: "Facile", moyen: "Moyen", difficile: "Difficile" };
+const GAME_ORDER = ["trivia", "quote", "photo"];
+const LEVEL_ORDER = {
+  trivia: ["facile", "moyen", "difficile"],
+  quote: ["facile", "moyen", "difficile"],
+  photo: ["tete", "maillot", "pixel"],
+};
 
-/* ============================================================
-   ÉTAT
-   ============================================================ */
 let player = { nom: "", prenom: "", age: "" };
 let progress = JSON.parse(localStorage.getItem("knb-progress") || "{}");
+let currentGame = null;
 let currentLevel = null;
 let currentQuestions = [];
 let currentIndex = 0;
 let score = 0;
 let answerLocked = false;
+let answerLog = [];
 
-function saveProgress(){
-  localStorage.setItem("knb-progress", JSON.stringify(progress));
-}
+function progressKey(game, level){ return game + "." + level; }
+function saveProgress(){ localStorage.setItem("knb-progress", JSON.stringify(progress)); }
 
-/* ============================================================
-   ENVOI DISCORD / EMAIL
-   ============================================================ */
 async function sendToDiscord(content){
   if(!CONFIG.DISCORD_WEBHOOK_URL) return false;
   try{
@@ -337,39 +429,41 @@ async function sendToDiscord(content){
       body: JSON.stringify({ content })
     });
     return true;
-  }catch(e){
-    console.error("Erreur webhook Discord :", e);
-    return false;
-  }
+  }catch(e){ console.error("Erreur webhook Discord :", e); return false; }
 }
-
 async function sendToEmail(subject, message){
   if(!CONFIG.FORMSUBMIT_EMAIL) return false;
   try{
-    await fetch(`https://formsubmit.co/ajax/${CONFIG.FORMSUBMIT_EMAIL}`, {
+    await fetch("https://formsubmit.co/ajax/" + CONFIG.FORMSUBMIT_EMAIL, {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
-      body: JSON.stringify({ subject, message })
+      body: JSON.stringify({ subject: subject, message: message })
     });
     return true;
-  }catch(e){
-    console.error("Erreur formsubmit :", e);
-    return false;
-  }
+  }catch(e){ console.error("Erreur formsubmit :", e); return false; }
 }
-
 async function notify(content, subject){
-  const results = await Promise.all([
-    sendToDiscord(content),
-    sendToEmail(subject, content)
-  ]);
+  const results = await Promise.all([sendToDiscord(content), sendToEmail(subject, content)]);
   return results.some(Boolean);
 }
+async function notifyLong(lines, subject){
+  let chunk = "";
+  const chunks = [];
+  for(const line of lines){
+    if((chunk + "\n" + line).length > 1800){ chunks.push(chunk); chunk = ""; }
+    chunk += (chunk ? "\n" : "") + line;
+  }
+  if(chunk) chunks.push(chunk);
+  let ok = false;
+  for(const c of chunks){
+    const r = await notify(c, subject);
+    ok = ok || r;
+  }
+  return ok;
+}
 
-/* ============================================================
-   ÉTAPE 1 — INSCRIPTION
-   ============================================================ */
 const screenRegister = document.getElementById("screen-register");
+const screenGames = document.getElementById("screen-games");
 const screenLevels = document.getElementById("screen-levels");
 const screenQuiz = document.getElementById("screen-quiz");
 const screenResult = document.getElementById("screen-result");
@@ -380,75 +474,114 @@ document.getElementById("btn-register").addEventListener("click", async () => {
   const age = document.getElementById("reg-age").value.trim();
   const errorEl = document.getElementById("reg-error");
 
-  if(!nom || !prenom || !age){
-    errorEl.textContent = "Merci de remplir le nom, le prénom et l'âge.";
-    return;
-  }
-  if(Number(age) <= 0){
-    errorEl.textContent = "Âge invalide.";
-    return;
-  }
+  if(!nom || !prenom || !age){ errorEl.textContent = "Merci de remplir le nom, le prénom et l'âge."; return; }
+  if(Number(age) <= 0){ errorEl.textContent = "Âge invalide."; return; }
   errorEl.textContent = "";
 
-  player = { nom, prenom, age };
-
+  player = { nom: nom, prenom: prenom, age: age };
   notify(
-    `🏀 **Nouvelle inscription au quiz Kuroko no Basket**\n` +
-    `Nom : ${nom}\nPrénom : ${prenom}\nÂge : ${age}`,
-    "Nouvelle inscription — Quiz Kuroko no Basket"
+    "\uD83C\uDFC0 **Nouvelle inscription — Arcade Kuroko no Basket**\nNom : " + nom + "\nPrénom : " + prenom + "\nÂge : " + age,
+    "Nouvelle inscription — Arcade Kuroko no Basket"
   );
 
-  document.getElementById("player-name").textContent = `${prenom} ${nom}`;
+  document.getElementById("player-name").textContent = prenom + " " + nom;
   screenRegister.classList.add("hidden");
-  screenLevels.classList.remove("hidden");
-  refreshLevelCards();
+  screenGames.classList.remove("hidden");
+  renderGameHub();
 });
 
-/* ============================================================
-   ÉTAPE 2 — NIVEAUX
-   ============================================================ */
-function levelStatus(level){
-  if(progress[level] && progress[level].done) return "done";
-  const idx = LEVEL_ORDER.indexOf(level);
+function gameHardestLevelDone(gameId){
+  const levels = LEVEL_ORDER[gameId];
+  const last = levels[levels.length - 1];
+  return !!(progress[progressKey(gameId, last)] && progress[progressKey(gameId, last)].done);
+}
+function gameStatus(gameId){
+  const idx = GAME_ORDER.indexOf(gameId);
+  if(idx === 0) return gameHardestLevelDone(gameId) ? "done" : "open";
+  const prevDone = gameHardestLevelDone(GAME_ORDER[idx - 1]);
+  if(!prevDone) return "locked";
+  return gameHardestLevelDone(gameId) ? "done" : "open";
+}
+function levelStatus(gameId, level){
+  if(progress[progressKey(gameId, level)] && progress[progressKey(gameId, level)].done) return "done";
+  const levels = LEVEL_ORDER[gameId];
+  const idx = levels.indexOf(level);
   if(idx === 0) return "open";
-  const prevLevel = LEVEL_ORDER[idx - 1];
-  return (progress[prevLevel] && progress[prevLevel].done) ? "open" : "locked";
+  const prevLevel = levels[idx - 1];
+  return (progress[progressKey(gameId, prevLevel)] && progress[progressKey(gameId, prevLevel)].done) ? "open" : "locked";
 }
 
-function refreshLevelCards(){
-  LEVEL_ORDER.forEach(level => {
-    const card = document.querySelector(`.level-card[data-level="${level}"]`);
-    const tag = document.getElementById(`tag-${level}`);
-    const status = levelStatus(level);
-    card.dataset.status = status;
-    card.classList.toggle("locked", status === "locked");
-    tag.className = "level-tag " + (status === "open" ? "tag-open" : status === "done" ? "tag-done" : "tag-locked");
-    tag.textContent = status === "open" ? "Ouvert" : status === "done" ? "Terminé" : "Verrouillé";
+function renderGameHub(){
+  const wrap = document.getElementById("games-wrap");
+  wrap.innerHTML = "";
+  GAME_ORDER.forEach(gameId => {
+    const game = GAMES[gameId];
+    const status = gameStatus(gameId);
+    const card = document.createElement("div");
+    card.className = "game-card" + (status === "locked" ? " locked" : "");
+    card.innerHTML =
+      '<div class="game-icon">' + game.icon + '</div>' +
+      '<div class="game-title">' + game.label + '</div>' +
+      '<div class="game-desc">' + game.desc + '</div>' +
+      '<div class="game-meta"><span class="pill ' + (status === 'done' ? 'done' : '') + '">' +
+      (status === 'locked' ? 'Verrouillé' : status === 'done' ? 'Terminé' : 'Ouvert') + '</span></div>';
+    card.addEventListener("click", () => {
+      if(status === "locked") return;
+      openGameLevels(gameId);
+    });
+    wrap.appendChild(card);
   });
 }
 
-document.querySelectorAll(".level-card").forEach(card => {
-  card.addEventListener("click", () => {
-    const level = card.dataset.level;
-    if(levelStatus(level) === "locked") return;
-    startQuiz(level);
-  });
+document.getElementById("crumb-back").addEventListener("click", () => {
+  screenLevels.classList.add("hidden");
+  screenGames.classList.remove("hidden");
+  renderGameHub();
 });
+
+function openGameLevels(gameId){
+  currentGame = gameId;
+  document.getElementById("crumb-game").textContent = GAMES[gameId].label;
+  const wrap = document.getElementById("levels-wrap");
+  wrap.innerHTML = "";
+  LEVEL_ORDER[gameId].forEach((levelId, i) => {
+    const level = GAMES[gameId].levels[levelId];
+    const status = levelStatus(gameId, levelId);
+    const card = document.createElement("div");
+    card.className = "level-card" + (status === "locked" ? " locked" : "");
+    card.dataset.status = status;
+    const tagClass = status === "open" ? "tag-open" : status === "done" ? "tag-done" : "tag-locked";
+    const tagText = status === "open" ? "Ouvert" : status === "done" ? "Terminé" : "Verrouillé";
+    const meta = progress[progressKey(gameId, levelId)]
+      ? "Dernier score : " + progress[progressKey(gameId, levelId)].score + "/" + progress[progressKey(gameId, levelId)].total
+      : (status === "locked" ? "Termine le niveau précédent pour débloquer." : "Prêt à jouer.");
+    card.innerHTML =
+      '<div class="level-num">0' + (i+1) + '</div>' +
+      '<div class="level-info"><div class="level-title">' + level.label + '</div>' +
+      '<div class="level-meta">' + meta + '</div></div>' +
+      '<div class="level-tag ' + tagClass + '">' + tagText + '</div>';
+    card.addEventListener("click", () => {
+      if(status === "locked") return;
+      startQuiz(gameId, levelId);
+    });
+    wrap.appendChild(card);
+  });
+  screenGames.classList.add("hidden");
+  screenLevels.classList.remove("hidden");
+}
 
 document.getElementById("btn-back-levels").addEventListener("click", () => {
   screenResult.classList.add("hidden");
-  screenLevels.classList.remove("hidden");
-  refreshLevelCards();
+  openGameLevels(currentGame);
 });
 
-/* ============================================================
-   ÉTAPE 3 — QUIZ
-   ============================================================ */
-function startQuiz(level){
-  currentLevel = level;
-  currentQuestions = QUESTIONS[level];
+function startQuiz(gameId, levelId){
+  currentGame = gameId;
+  currentLevel = levelId;
+  currentQuestions = GAMES[gameId].levels[levelId].questions;
   currentIndex = 0;
   score = 0;
+  answerLog = [];
   screenLevels.classList.add("hidden");
   screenQuiz.classList.remove("hidden");
   renderQuestion();
@@ -458,10 +591,30 @@ function renderQuestion(){
   answerLocked = false;
   const total = currentQuestions.length;
   const item = currentQuestions[currentIndex];
+  const gameType = currentGame;
+  const levelDef = GAMES[currentGame].levels[currentLevel];
+
   document.getElementById("q-progress").textContent =
-    `${LEVEL_LABEL[currentLevel]} — Question ${currentIndex + 1} / ${total}`;
-  document.getElementById("q-bar-fill").style.width = `${(currentIndex / total) * 100}%`;
-  document.getElementById("q-text").textContent = item.q;
+    GAMES[currentGame].label + " — " + levelDef.label + " — Question " + (currentIndex + 1) + " / " + total;
+  document.getElementById("q-bar-fill").style.width = (currentIndex / total) * 100 + "%";
+
+  const imageSlot = document.getElementById("q-image-slot");
+  const content = document.getElementById("q-content");
+  imageSlot.innerHTML = "";
+  content.innerHTML = "";
+
+  if(gameType === "trivia"){
+    content.innerHTML = '<p class="q-text">' + item.q + '</p>';
+  } else if(gameType === "quote"){
+    content.innerHTML = '<p class="q-quote">' + item.clue + '</p><p class="q-text" style="font-size:14px;color:var(--ghost);text-transform:uppercase;letter-spacing:.1em;">Qui a dit ça ?</p>';
+  } else if(gameType === "photo"){
+    const cropClass = "crop-" + levelDef.crop;
+    imageSlot.innerHTML = '<div class="q-image-wrap ' + cropClass + '"><img src="' + item.image + '" alt="Personnage à deviner"></div>';
+    if(levelDef.crop === "pixel"){
+      requestAnimationFrame(() => pixelateImage(imageSlot.querySelector("img")));
+    }
+    content.innerHTML = '<p class="q-text" style="font-size:14px;color:var(--ghost);text-transform:uppercase;letter-spacing:.1em;text-align:center;">Qui est-ce ?</p>';
+  }
 
   const optsWrap = document.getElementById("q-options");
   optsWrap.innerHTML = "";
@@ -474,6 +627,26 @@ function renderQuestion(){
   });
 }
 
+function pixelateImage(imgEl){
+  const draw = () => {
+    const canvas = document.createElement("canvas");
+    const size = 16;
+    canvas.width = size; canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(imgEl, 0, 0, size, size);
+    canvas.className = "pixelate-canvas";
+    imgEl.replaceWith(canvas);
+  };
+  if(imgEl.complete) draw(); else imgEl.addEventListener("load", draw);
+}
+
+function questionLabel(item){
+  if(currentGame === "trivia") return item.q;
+  if(currentGame === "quote") return item.clue;
+  if(currentGame === "photo") return "Photo à deviner";
+}
+
 function selectAnswer(i, btn){
   if(answerLocked) return;
   answerLocked = true;
@@ -481,7 +654,8 @@ function selectAnswer(i, btn){
   const allBtns = document.querySelectorAll("#q-options .opt");
   allBtns.forEach(b => b.disabled = true);
 
-  if(i === item.correct){
+  const isCorrect = i === item.correct;
+  if(isCorrect){
     btn.classList.add("correct");
     score++;
   }else{
@@ -489,49 +663,70 @@ function selectAnswer(i, btn){
     allBtns[item.correct].classList.add("correct");
   }
 
+  answerLog.push({
+    question: questionLabel(item),
+    chosen: item.options[i],
+    correctAnswer: item.options[item.correct],
+    isCorrect: isCorrect
+  });
+
   setTimeout(() => {
     currentIndex++;
-    if(currentIndex < currentQuestions.length){
-      renderQuestion();
-    }else{
-      finishQuiz();
-    }
+    if(currentIndex < currentQuestions.length) renderQuestion();
+    else finishQuiz();
   }, 900);
 }
 
-/* ============================================================
-   ÉTAPE 4 — RÉSULTAT + ENVOI
-   ============================================================ */
 async function finishQuiz(){
   const total = currentQuestions.length;
-  const passThreshold = Math.ceil(total * 0.5); // 50% pour valider le niveau
+  const passThreshold = Math.ceil(total * 0.5);
   const passed = score >= passThreshold;
+  const levelDef = GAMES[currentGame].levels[currentLevel];
 
-  progress[currentLevel] = { done: passed, score, total };
+  progress[progressKey(currentGame, currentLevel)] = { done: passed, score: score, total: total };
   saveProgress();
 
   screenQuiz.classList.add("hidden");
   screenResult.classList.remove("hidden");
-  document.getElementById("result-level").textContent = `Niveau ${LEVEL_LABEL[currentLevel]}`;
-  document.getElementById("result-score").textContent = `${score} / ${total}`;
+  document.getElementById("result-level").textContent = GAMES[currentGame].label + " — " + levelDef.label;
+  document.getElementById("result-score").textContent = score + " / " + total;
   document.getElementById("result-status").textContent = passed
-    ? "Niveau validé — suivant débloqué !"
-    : "Score insuffisant — réessaie pour débloquer la suite.";
+    ? "✅ Niveau validé — suite débloquée !"
+    : "❌ Score insuffisant — réessaie pour débloquer la suite.";
+  document.getElementById("result-status").style.color = passed ? "var(--success)" : "var(--seirin-red)";
+
+  const recapEl = document.getElementById("recap");
+  recapEl.innerHTML = "";
+  answerLog.forEach((r, idx) => {
+    const row = document.createElement("div");
+    row.className = "recap-item";
+    row.innerHTML =
+      '<span class="recap-icon ' + (r.isCorrect ? 'ok' : 'ko') + '">' + (r.isCorrect ? '✔' : '✘') + '</span>' +
+      '<div><div class="recap-q">' + (idx + 1) + '. ' + r.question + '</div>' +
+      '<div class="recap-a">Réponse donnée : <strong>' + r.chosen + '</strong>' +
+      (r.isCorrect ? "" : ' — Bonne réponse : <strong>' + r.correctAnswer + '</strong>') + '</div></div>';
+    recapEl.appendChild(row);
+  });
 
   const statusEl = document.getElementById("send-status");
-  statusEl.textContent = "Envoi du résultat…";
+  statusEl.textContent = "Envoi du résultat détaillé…";
 
-  const message =
-    `🏀 **Résultat quiz Kuroko no Basket**\n` +
-    `Joueur : ${player.prenom} ${player.nom} (${player.age} ans)\n` +
-    `Niveau : ${LEVEL_LABEL[currentLevel]}\n` +
-    `Score : ${score} / ${total}\n` +
-    `Résultat : ${passed ? "✅ Validé" : "❌ Non validé"}`;
+  const lines = [];
+  lines.push("\uD83C\uDFC0 **Résultat — " + GAMES[currentGame].label + " / " + levelDef.label + "**");
+  lines.push("Joueur : " + player.prenom + " " + player.nom + " (" + player.age + " ans)");
+  lines.push("Score : " + score + " / " + total + " — " + (passed ? "✅ Validé" : "❌ Non validé"));
+  lines.push("");
+  answerLog.forEach((r, idx) => {
+    const icon = r.isCorrect ? "✅" : "❌";
+    if(r.isCorrect){
+      lines.push(icon + " Q" + (idx+1) + " : " + r.question + " → Réponse : " + r.chosen + " (correcte)");
+    }else{
+      lines.push(icon + " Q" + (idx+1) + " : " + r.question + " → Réponse donnée : " + r.chosen + " | Bonne réponse : " + r.correctAnswer);
+    }
+  });
 
-  const ok = await notify(message, `Résultat quiz — ${LEVEL_LABEL[currentLevel]} — ${player.prenom} ${player.nom}`);
-  statusEl.textContent = ok
-    ? "Résultat envoyé."
-    : "Résultat non envoyé (webhook/email non configuré — voir CONFIG dans index.html).";
+  const ok = await notifyLong(lines, "Résultat — " + GAMES[currentGame].label + " " + levelDef.label + " — " + player.prenom + " " + player.nom);
+  statusEl.textContent = ok ? "Résultat détaillé envoyé." : "Résultat non envoyé (webhook/email non configuré).";
 }
 </script>
 </body>
