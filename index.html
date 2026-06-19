@@ -353,7 +353,8 @@
   </section>
 
   <section id="screen-levels" class="panel hidden">
-    <p class="crumb"><span id="crumb-back" style="cursor:pointer;text-decoration:underline;">Jeux</span><span class="sep">/</span><b id="crumb-game"></b></p>
+    <button class="btn btn-ghost" id="crumb-back" style="margin-bottom:18px;padding:9px 16px;">&larr; Retour aux jeux</button>
+    <p class="crumb" style="margin-bottom:14px;"><b id="crumb-game"></b></p>
     <div class="levels" id="levels-wrap"></div>
   </section>
 
@@ -372,6 +373,7 @@
     <div class="recap" id="recap"></div>
     <div class="btn-row">
       <button class="btn" id="btn-back-levels">Retour aux niveaux</button>
+      <button class="btn btn-ghost" id="btn-back-games">&larr; Retour aux jeux</button>
     </div>
   </section>
 
@@ -491,6 +493,31 @@ let answerLog = [];
 
 function progressKey(game, level){ return game + "." + level; }
 function saveProgress(){ localStorage.setItem("knb-progress", JSON.stringify(progress)); }
+
+function shuffleArray(arr){
+  const a = arr.slice();
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+// Mélange les questions (ordre) et, pour chacune, l'ordre des options (en
+// remappant l'index de la bonne réponse). Renvoie une nouvelle liste, ne
+// modifie jamais les données d'origine — comme ça chaque partie est différente.
+function shuffleQuestions(list){
+  const shuffledList = shuffleArray(list);
+  return shuffledList.map(item => {
+    const optionIndices = item.options.map((_, i) => i);
+    const shuffledIndices = shuffleArray(optionIndices);
+    const newOptions = shuffledIndices.map(i => item.options[i]);
+    const newCorrect = shuffledIndices.indexOf(item.correct);
+    const copy = Object.assign({}, item);
+    copy.options = newOptions;
+    copy.correct = newCorrect;
+    return copy;
+  });
+}
 
 /* ============================================================
    ENVOI DISCORD / EMAIL
@@ -701,13 +728,19 @@ document.getElementById("btn-back-levels").addEventListener("click", () => {
   openGameLevels(currentGame);
 });
 
+document.getElementById("btn-back-games").addEventListener("click", () => {
+  hideAll();
+  screenGames.classList.remove("hidden");
+  renderGameHub();
+});
+
 /* ============================================================
    ÉTAPE 4 — QUIZ (jeux normaux)
    ============================================================ */
 function startQuiz(gameId, levelId){
   currentGame = gameId;
   currentLevel = levelId;
-  currentQuestions = GAMES[gameId].levels[levelId].questions;
+  currentQuestions = shuffleQuestions(GAMES[gameId].levels[levelId].questions);
   currentIndex = 0;
   score = 0;
   answerLog = [];
@@ -903,11 +936,13 @@ let finalLog = [];
 let finalTimerInterval = null;
 let finalTimeLeft = FINAL_TIME_PER_QUESTION;
 let finalAnswerLocked = false;
+let currentFinalQuestions = [];
 
 document.getElementById("btn-start-final").addEventListener("click", () => {
   finalIndex = 0;
   finalScore = 0;
   finalLog = [];
+  currentFinalQuestions = shuffleQuestions(FINAL_QUESTIONS);
   hideAll();
   screenFinalQuiz.classList.remove("hidden");
   renderFinalQuestion();
@@ -915,8 +950,8 @@ document.getElementById("btn-start-final").addEventListener("click", () => {
 
 function renderFinalQuestion(){
   finalAnswerLocked = false;
-  const total = FINAL_QUESTIONS.length;
-  const item = FINAL_QUESTIONS[finalIndex];
+  const total = currentFinalQuestions.length;
+  const item = currentFinalQuestions[finalIndex];
 
   document.getElementById("fq-progress").textContent = "Question " + (finalIndex + 1) + " / " + total;
   document.getElementById("fq-bar-fill").style.width = (finalIndex / total) * 100 + "%";
@@ -955,7 +990,7 @@ function startFinalTimer(){
 
 function timeoutFinalAnswer(){
   finalAnswerLocked = true;
-  const item = FINAL_QUESTIONS[finalIndex];
+  const item = currentFinalQuestions[finalIndex];
   const allBtns = document.querySelectorAll("#fq-options .opt");
   allBtns.forEach(b => b.disabled = true);
   allBtns[item.correct].classList.add("correct");
@@ -974,7 +1009,7 @@ function selectFinalAnswer(i, btn){
   if(finalAnswerLocked) return;
   finalAnswerLocked = true;
   clearInterval(finalTimerInterval);
-  const item = FINAL_QUESTIONS[finalIndex];
+  const item = currentFinalQuestions[finalIndex];
   const allBtns = document.querySelectorAll("#fq-options .opt");
   allBtns.forEach(b => b.disabled = true);
 
@@ -994,13 +1029,13 @@ function selectFinalAnswer(i, btn){
 
 function advanceFinal(){
   finalIndex++;
-  if(finalIndex < FINAL_QUESTIONS.length) renderFinalQuestion();
+  if(finalIndex < currentFinalQuestions.length) renderFinalQuestion();
   else finishFinal();
 }
 
 async function finishFinal(){
   clearInterval(finalTimerInterval);
-  const total = FINAL_QUESTIONS.length;
+  const total = currentFinalQuestions.length;
   const passed = finalScore === total;
 
   hideAll();
