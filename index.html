@@ -652,10 +652,13 @@ function goHub(){
   show("screen-games");renderHub();
 }
 function allDone(gid){return LO[gid].every(l=>{const e=progress[pk(gid,l)];return e&&e.done;});}
+
+/* CORRECTIF : le jeu suivant ne s'ouvre que si le jeu précédent est validé à 100% (allDone),
+   et non plus simplement "tenté" (.some). */
 function gStatus(gid){
   const idx=GO.indexOf(gid);if(idx===0)return allDone(gid)?"done":"open";
-  const prev=LO[GO[idx-1]].some(l=>progress[pk(GO[idx-1],l)]);
-  return prev?(allDone(gid)?"done":"open"):"locked";
+  const prevDone=allDone(GO[idx-1]);
+  return prevDone?(allDone(gid)?"done":"open"):"locked";
 }
 /* Niveau suivant ouvert seulement si le précédent est 100% validé */
 function lStatus(gid,level){
@@ -665,7 +668,9 @@ function lStatus(gid,level){
   const prev=progress[pk(gid,levels[idx-1])];
   return(prev&&prev.done)?"open":"locked";
 }
-function anyPlayed(){return GO.every(gid=>LO[gid].some(l=>progress[pk(gid,l)]));}
+/* CORRECTIF : la Zone d'Aomine ne s'affiche que si TOUS les jeux sont validés à 100%,
+   et non plus simplement "joués" (.some). */
+function anyPlayed(){return GO.every(gid=>allDone(gid));}
 
 function renderHub(){
   const wrap=document.getElementById("games-wrap");wrap.innerHTML="";
@@ -683,7 +688,7 @@ function renderHub(){
     zb.innerHTML='<div class="zone-card" style="cursor:pointer;" id="zone-inline-btn"><p class="zone-title">Zone — Daiki Aomine</p><p class="zone-desc">Tu as répondu aux deux jeux. Envoie tes réponses à Aomine Daiki pour tenter le défi final.</p></div>';
     document.getElementById("zone-inline-btn").addEventListener("click",()=>show("screen-zone"));
   } else {
-    zb.innerHTML='<p style="color:var(--t3);font-size:11px;margin-top:10px;letter-spacing:.04em;">Joue au moins un niveau dans chaque jeu pour débloquer le défi d\'Aomine Daiki.</p>';
+    zb.innerHTML='<p style="color:var(--t3);font-size:11px;margin-top:10px;letter-spacing:.04em;">Réussis tous les niveaux des deux jeux (100%) pour débloquer le défi d\'Aomine Daiki.</p>';
   }
 }
 document.getElementById("btn-zone-back").addEventListener("click",goHub);
