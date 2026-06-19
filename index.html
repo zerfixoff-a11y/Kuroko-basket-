@@ -558,17 +558,6 @@ function hideAll(){ SCREENS.forEach(id=>document.getElementById(id).classList.ad
 function show(id){ hideAll(); document.getElementById(id).classList.remove("hidden"); }
 
 /* ============================================================
-   DÉMARRAGE
-   ============================================================ */
-loadAll();
-if(player.nom && player.prenom && player.charId){
-  showWelcomeBack();
-} else {
-  initCarousel();
-  show("screen-char");
-}
-
-/* ============================================================
    ACCUEIL RETOUR
    ============================================================ */
 function showWelcomeBack(){
@@ -1017,6 +1006,17 @@ async function finishFinal(){
   });
   const ok=await notifyLong(lines,"Défi final — "+player.prenom+" "+player.nom);
   statusEl.textContent=ok?"Résultat final envoyé.":"Résultat non envoyé.";
+}
+
+/* ============================================================
+   DÉMARRAGE — à la fin, toutes les fonctions sont définies
+   ============================================================ */
+loadAll();
+if(player.nom && player.prenom && player.charId){
+  showWelcomeBack();
+} else {
+  initCarousel();
+  show("screen-char");
 }
 </script>
 </body>
