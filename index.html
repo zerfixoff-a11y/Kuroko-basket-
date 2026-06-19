@@ -3,22 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generation of Miracles — Arcade Kuroko no Basket</title>
+<title>Zone — Quiz Kuroko no Basket</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --court:#0b0f17;
-    --court-line:#161e2c;
-    --seirin-red:#d6321f;
-    --seirin-red-bright:#ef3a23;
-    --kiseki-gold:#e8b13d;
-    --touou-blue:#1d4ed8;
-    --paper:#f4ede0;
-    --ghost:#7d8aa3;
-    --success:#3f9c5f;
-    --lock:#3a4256;
-    --panel-bg: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.01));
+    --bg:#05070d;
+    --bg-line:#0d1220;
+    --panel:#0c1120;
+    --edge:rgba(255,255,255,0.08);
+    --blue:#2f6bff;
+    --blue-bright:#5b8aff;
+    --cyan:#38e1d6;
+    --danger:#ff5d3b;
+    --text:#eef1f8;
+    --ghost:#7c8aa6;
+    --success:#2fd48a;
+    --lock:#333c52;
   }
   *{box-sizing:border-box;}
   body{
@@ -26,47 +27,48 @@
     min-height:100vh;
     font-family:'Inter',sans-serif;
     background:
-      radial-gradient(circle at 15% -5%, rgba(214,50,31,0.10), transparent 40%),
-      radial-gradient(circle at 90% 105%, rgba(232,177,61,0.08), transparent 45%),
-      repeating-linear-gradient(0deg, var(--court) 0px, var(--court) 78px, var(--court-line) 79px, var(--court) 80px),
-      var(--court);
-    color:var(--paper);
+      radial-gradient(circle at 10% -10%, rgba(47,107,255,0.16), transparent 42%),
+      radial-gradient(circle at 95% 110%, rgba(56,225,214,0.08), transparent 45%),
+      repeating-linear-gradient(0deg, var(--bg) 0px, var(--bg) 90px, var(--bg-line) 91px, var(--bg) 92px),
+      var(--bg);
+    color:var(--text);
     display:flex;
     align-items:flex-start;
     justify-content:center;
     padding:40px 16px 80px;
   }
-  .wrap{width:100%;max-width:780px;}
+  .wrap{width:100%;max-width:760px;}
 
   .eyebrow{
     text-transform:uppercase;
-    letter-spacing:.35em;
+    letter-spacing:.32em;
     font-size:11px;
-    color:var(--kiseki-gold);
+    color:var(--cyan);
     margin:0 0 8px;
     font-weight:600;
   }
   h1.brand{
-    font-family:'Anton',sans-serif;
-    font-weight:400;
-    font-size:clamp(40px,8vw,64px);
+    font-family:'Rajdhani',sans-serif;
+    font-weight:700;
+    font-size:clamp(38px,7.5vw,58px);
     margin:0 0 4px;
     letter-spacing:1px;
     line-height:.95;
     text-transform:uppercase;
   }
-  h1.brand span{color:var(--seirin-red);}
+  h1.brand span{color:var(--blue-bright);}
   .sub{color:var(--ghost);font-size:14px;margin:0 0 36px;letter-spacing:.02em;line-height:1.5;}
 
   .panel{
-    background:var(--panel-bg);
-    border:1px solid rgba(255,255,255,0.08);
-    border-left:3px solid var(--seirin-red);
+    background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.008));
+    border:1px solid var(--edge);
+    border-left:3px solid var(--blue);
     border-radius:6px;
     padding:32px clamp(18px,5vw,42px);
     margin-bottom:24px;
-    box-shadow:0 20px 50px -25px rgba(0,0,0,0.6);
+    box-shadow:0 24px 60px -30px rgba(0,0,0,0.7);
   }
+  .panel.danger-edge{border-left-color:var(--danger);}
 
   label{
     display:block;
@@ -80,17 +82,17 @@
   label:first-of-type{margin-top:0;}
   input[type=text], input[type=number]{
     width:100%;
-    background:rgba(0,0,0,0.3);
-    border:1px solid rgba(255,255,255,0.15);
+    background:rgba(0,0,0,0.35);
+    border:1px solid rgba(255,255,255,0.14);
     border-radius:4px;
     padding:13px 14px;
-    color:var(--paper);
+    color:var(--text);
     font-size:16px;
     font-family:inherit;
     outline:none;
     transition:border-color .15s, box-shadow .15s;
   }
-  input:focus{border-color:var(--kiseki-gold); box-shadow:0 0 0 3px rgba(232,177,61,0.12);}
+  input:focus{border-color:var(--cyan); box-shadow:0 0 0 3px rgba(56,225,214,0.14);}
 
   .btn{
     appearance:none;
@@ -103,45 +105,45 @@
     font-size:13px;
     padding:14px 28px;
     border-radius:4px;
-    background:var(--seirin-red);
-    color:var(--paper);
+    background:var(--blue);
+    color:var(--text);
     transition:transform .12s, background .15s, box-shadow .15s;
-    box-shadow:0 8px 20px -10px rgba(214,50,31,0.6);
+    box-shadow:0 8px 22px -10px rgba(47,107,255,0.6);
   }
-  .btn:hover{background:var(--seirin-red-bright); box-shadow:0 10px 26px -10px rgba(214,50,31,0.75);}
+  .btn:hover{background:var(--blue-bright); box-shadow:0 10px 28px -10px rgba(47,107,255,0.8);}
   .btn:active{transform:scale(.97);}
   .btn:disabled{background:var(--lock);cursor:not-allowed;color:var(--ghost);box-shadow:none;}
   .btn-row{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;}
-  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--paper);box-shadow:none;}
-  .btn-ghost:hover{border-color:var(--kiseki-gold);background:transparent;color:var(--kiseki-gold);}
+  .btn-danger{background:var(--danger);box-shadow:0 8px 22px -10px rgba(255,93,59,0.6);}
+  .btn-danger:hover{background:#ff7556;}
 
-  .error{color:var(--seirin-red);font-size:13px;margin-top:10px;min-height:16px;}
+  .error{color:var(--danger);font-size:13px;margin-top:10px;min-height:16px;}
 
   .crumb{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ghost);margin-bottom:18px;display:flex;gap:8px;align-items:center;}
-  .crumb b{color:var(--kiseki-gold);font-weight:700;}
+  .crumb b{color:var(--cyan);font-weight:700;}
   .crumb .sep{color:var(--lock);}
 
   .games{display:grid;grid-template-columns:1fr;gap:16px;}
   .game-card{
     position:relative;
-    border:1px solid rgba(255,255,255,0.1);
+    border:1px solid var(--edge);
     border-radius:6px;
     padding:24px;
     cursor:pointer;
-    background:rgba(255,255,255,0.025);
+    background:rgba(255,255,255,0.02);
     transition:border-color .15s, background .15s, transform .12s;
     overflow:hidden;
   }
   .game-card::before{
     content:"";position:absolute;inset:0;
-    background:linear-gradient(120deg, transparent 40%, rgba(232,177,61,0.06) 50%, transparent 60%);
+    background:linear-gradient(120deg, transparent 40%, rgba(56,225,214,0.06) 50%, transparent 60%);
     opacity:0;transition:opacity .25s;
   }
-  .game-card:not(.locked):hover{border-color:var(--kiseki-gold);transform:translateY(-2px);}
+  .game-card:not(.locked):hover{border-color:var(--cyan);transform:translateY(-2px);}
   .game-card:not(.locked):hover::before{opacity:1;}
   .game-card.locked{cursor:not-allowed;opacity:.5;}
-  .game-icon{font-size:30px;margin-bottom:10px;}
-  .game-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;text-transform:uppercase;}
+  .game-icon{font-size:28px;margin-bottom:10px;}
+  .game-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:23px;letter-spacing:.04em;text-transform:uppercase;}
   .game-desc{font-size:13px;color:var(--ghost);margin-top:6px;line-height:1.5;}
   .game-meta{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;}
   .pill{font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 10px;border-radius:20px;border:1px solid var(--lock);color:var(--ghost);}
@@ -150,7 +152,7 @@
   .levels{display:grid;grid-template-columns:1fr;gap:14px;}
   .level-card{
     position:relative;
-    border:1px solid rgba(255,255,255,0.1);
+    border:1px solid var(--edge);
     border-radius:5px;
     padding:20px 22px;
     display:flex;
@@ -162,13 +164,13 @@
     transition:border-color .15s, background .15s;
   }
   .level-card.locked{cursor:not-allowed;opacity:.5;}
-  .level-card:not(.locked):hover{border-color:var(--kiseki-gold);background:rgba(232,177,61,0.04);}
+  .level-card:not(.locked):hover{border-color:var(--cyan);background:rgba(56,225,214,0.04);}
   .level-num{
-    font-family:'Anton',sans-serif;
+    font-family:'Rajdhani',sans-serif;font-weight:700;
     font-size:32px;
     width:50px;
-    color:var(--seirin-red);
-    opacity:.55;
+    color:var(--blue-bright);
+    opacity:.6;
   }
   .level-card[data-status="done"] .level-num{color:var(--success);opacity:1;}
   .level-card.locked .level-num{color:var(--lock);opacity:1;}
@@ -176,49 +178,35 @@
   .level-title{font-size:17px;text-transform:uppercase;letter-spacing:.05em;font-weight:700;}
   .level-meta{font-size:12px;color:var(--ghost);margin-top:3px;}
   .level-tag{font-size:10px;text-transform:uppercase;letter-spacing:.1em;padding:4px 9px;border-radius:20px;border:1px solid currentColor;white-space:nowrap;}
-  .tag-open{color:var(--kiseki-gold);}
+  .tag-open{color:var(--cyan);}
   .tag-done{color:var(--success);}
   .tag-locked{color:var(--lock);}
 
   .q-progress{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ghost);margin-bottom:14px;font-weight:600;}
   .q-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin-bottom:30px;overflow:hidden;}
-  .q-bar-fill{height:100%;background:linear-gradient(90deg,var(--seirin-red),var(--kiseki-gold));transition:width .25s;}
+  .q-bar-fill{height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .25s;}
 
   .q-quote{
-    font-family:'Bebas Neue',sans-serif;
-    font-size:clamp(22px,4.5vw,30px);
+    font-family:'Rajdhani',sans-serif;
+    font-weight:600;
+    font-size:clamp(21px,4.2vw,28px);
     line-height:1.3;
     margin:0 0 26px;
-    color:var(--paper);
-    border-left:3px solid var(--kiseki-gold);
+    color:var(--text);
+    border-left:3px solid var(--cyan);
     padding-left:18px;
   }
-  .q-quote::before{content:"\201C ";color:var(--kiseki-gold);}
-  .q-quote::after{content:" \201D";color:var(--kiseki-gold);}
+  .q-quote::before{content:"\201C ";color:var(--cyan);}
+  .q-quote::after{content:" \201D";color:var(--cyan);}
 
   .q-text{font-size:21px;line-height:1.35;margin:0 0 26px;font-weight:600;}
-
-  .q-image-wrap{
-    width:100%;
-    max-width:280px;
-    aspect-ratio:3/4;
-    margin:0 auto 26px;
-    border-radius:6px;
-    overflow:hidden;
-    border:1px solid rgba(255,255,255,0.12);
-    background:#161e2c;
-  }
-  .q-image-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
-  .crop-tete img{object-position:top center; transform:scale(1.6); transform-origin:top center;}
-  .crop-maillot img{object-position:60% center; transform:scale(1.5);}
-  .pixelate-canvas{width:100%;height:100%;image-rendering:pixelated;display:block;}
 
   .options{display:grid;gap:10px;}
   .opt{
     text-align:left;
-    border:1px solid rgba(255,255,255,0.15);
+    border:1px solid rgba(255,255,255,0.14);
     background:rgba(255,255,255,0.02);
-    color:var(--paper);
+    color:var(--text);
     padding:14px 16px;
     border-radius:4px;
     cursor:pointer;
@@ -227,28 +215,63 @@
     font-weight:500;
     transition:border-color .12s, background .12s;
   }
-  .opt:hover{border-color:var(--kiseki-gold);}
-  .opt.selected{border-color:var(--kiseki-gold);background:rgba(232,177,61,0.08);}
-  .opt.correct{border-color:var(--success);background:rgba(63,156,95,0.14);}
-  .opt.wrong{border-color:var(--seirin-red);background:rgba(214,50,31,0.14);}
+  .opt:hover{border-color:var(--cyan);}
+  .opt.selected{border-color:var(--cyan);background:rgba(56,225,214,0.08);}
+  .opt.correct{border-color:var(--success);background:rgba(47,212,138,0.14);}
+  .opt.wrong{border-color:var(--danger);background:rgba(255,93,59,0.14);}
   .opt:disabled{cursor:default;}
 
   .result-score{
-    font-family:'Anton',sans-serif;
-    font-size:58px;color:var(--kiseki-gold);margin:0;
+    font-family:'Rajdhani',sans-serif;font-weight:700;
+    font-size:56px;color:var(--cyan);margin:0;
     line-height:1;
   }
   .result-label{color:var(--ghost);font-size:12px;text-transform:uppercase;letter-spacing:.15em;font-weight:600;}
   .result-status{font-size:15px;margin-top:10px;font-weight:600;}
   .send-status{font-size:12px;color:var(--ghost);margin-top:16px;}
 
-  .recap{margin-top:22px;border-top:1px solid rgba(255,255,255,0.08);padding-top:18px;}
+  .recap{margin-top:22px;border-top:1px solid var(--edge);padding-top:18px;}
   .recap-item{display:flex;gap:10px;align-items:flex-start;padding:8px 0;font-size:13px;line-height:1.4;}
   .recap-icon{flex-shrink:0;width:18px;}
   .recap-icon.ok{color:var(--success);}
-  .recap-icon.ko{color:var(--seirin-red);}
-  .recap-q{color:var(--paper);}
+  .recap-icon.ko{color:var(--danger);}
+  .recap-q{color:var(--text);}
   .recap-a{color:var(--ghost);margin-top:2px;}
+
+  /* Zone Aomine */
+  .zone-card{
+    border:1px dashed rgba(255,93,59,0.4);
+    border-radius:6px;
+    padding:26px;
+    background:radial-gradient(circle at 0% 0%, rgba(255,93,59,0.08), transparent 60%);
+  }
+  .zone-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;text-transform:uppercase;letter-spacing:.04em;color:var(--danger);}
+  .zone-desc{font-size:13px;color:var(--ghost);margin-top:8px;line-height:1.55;}
+
+  .waiting-icon{font-size:40px;margin-bottom:14px;}
+  .waiting-title{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:24px;text-transform:uppercase;letter-spacing:.03em;}
+  .waiting-text{color:var(--ghost);font-size:14px;margin-top:10px;line-height:1.6;}
+  .pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--danger);margin-right:8px;animation:pulse 1.2s infinite;}
+  @keyframes pulse{0%,100%{opacity:.3;}50%{opacity:1;}}
+
+  .timer-wrap{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+  .timer{
+    font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;
+    color:var(--danger);
+    min-width:54px;text-align:right;
+  }
+  .timer.urgent{animation:pulse .5s infinite;}
+
+  .final-result-title{
+    font-family:'Rajdhani',sans-serif;font-weight:700;
+    font-size:clamp(28px,6vw,40px);
+    text-transform:uppercase;
+    line-height:1.1;
+    margin:0 0 12px;
+  }
+  .final-result-title.pass{color:var(--success);}
+  .final-result-title.fail{color:var(--danger);}
+  .final-result-text{font-size:15px;color:var(--ghost);line-height:1.6;}
 
   .hidden{display:none !important;}
   footer{text-align:center;color:var(--ghost);font-size:11px;margin-top:30px;letter-spacing:.05em;}
@@ -257,9 +280,9 @@
 <body>
 <div class="wrap">
 
-  <p class="eyebrow">Arcade non officielle</p>
+  <p class="eyebrow">Quiz non officiel</p>
   <h1 class="brand">Generation of <span>Miracles</span></h1>
-  <p class="sub">3 jeux, 3 niveaux chacun. Bienvenue sur le terrain.</p>
+  <p class="sub">2 jeux, 3 niveaux chacun. Et si tu vas au bout... quelqu'un d'autre t'attend.</p>
 
   <section id="screen-register" class="panel">
     <label for="reg-nom">Nom</label>
@@ -282,6 +305,53 @@
     <div class="games" id="games-wrap"></div>
   </section>
 
+  <section id="screen-zone" class="panel danger-edge hidden">
+    <div class="zone-card">
+      <div class="zone-title">Zone — Daiki Aomine</div>
+      <p class="zone-desc">Envoie tes réponses à Aomine Daiki. S'il estime que tu en vaux la peine, il te laissera tenter sa dernière épreuve — 10 questions, et zéro droit à l'erreur.</p>
+      <div class="btn-row">
+        <button class="btn btn-danger" id="btn-send-aomine">Envoyer mes réponses à Aomine Daiki</button>
+      </div>
+      <p class="error" id="zone-error"></p>
+    </div>
+  </section>
+
+  <section id="screen-waiting" class="panel danger-edge hidden">
+    <div class="waiting-icon">⏳</div>
+    <div class="waiting-title"><span class="pulse"></span>En attente de la décision d'Aomine Daiki</div>
+    <p class="waiting-text">Ta demande vient d'être envoyée. Si Aomine Daiki décide de te laisser une chance, il te transmettra un code d'accès (en dehors de ce site — sur Discord). Entre-le ici dès que tu l'as.</p>
+    <label for="access-code">Code d'accès</label>
+    <input id="access-code" type="text" placeholder="••••••••">
+    <div class="btn-row">
+      <button class="btn btn-danger" id="btn-unlock-final">Valider le code</button>
+    </div>
+    <p class="error" id="waiting-error"></p>
+  </section>
+
+  <section id="screen-final-intro" class="panel danger-edge hidden">
+    <div class="zone-title">Tu es élu.</div>
+    <p class="zone-desc">10 questions. Extrêmement difficiles. Un temps limité par question — pas le temps de chercher ailleurs. Une seule erreur, et c'est terminé.</p>
+    <div class="btn-row">
+      <button class="btn btn-danger" id="btn-start-final">Répondre aux dernières questions</button>
+    </div>
+  </section>
+
+  <section id="screen-final-quiz" class="panel danger-edge hidden">
+    <div class="timer-wrap">
+      <p class="q-progress" id="fq-progress" style="margin:0;"></p>
+      <span class="timer" id="fq-timer">15</span>
+    </div>
+    <div class="q-bar"><div class="q-bar-fill" id="fq-bar-fill"></div></div>
+    <p class="q-text" id="fq-text"></p>
+    <div class="options" id="fq-options"></div>
+  </section>
+
+  <section id="screen-final-result" class="panel danger-edge hidden">
+    <p class="final-result-title" id="fr-title"></p>
+    <p class="final-result-text" id="fr-text"></p>
+    <p class="send-status" id="fr-send-status"></p>
+  </section>
+
   <section id="screen-levels" class="panel hidden">
     <p class="crumb"><span id="crumb-back" style="cursor:pointer;text-decoration:underline;">Jeux</span><span class="sep">/</span><b id="crumb-game"></b></p>
     <div class="levels" id="levels-wrap"></div>
@@ -290,7 +360,6 @@
   <section id="screen-quiz" class="panel hidden">
     <p class="q-progress" id="q-progress"></p>
     <div class="q-bar"><div class="q-bar-fill" id="q-bar-fill"></div></div>
-    <div id="q-image-slot"></div>
     <div id="q-content"></div>
     <div class="options" id="q-options"></div>
   </section>
@@ -306,15 +375,24 @@
     </div>
   </section>
 
-  <footer>Fan arcade non officiel — Kuroko no Basket © Tadatoshi Fujimaki / Shueisha</footer>
+  <footer>Fan quiz non officiel — Kuroko no Basket © Tadatoshi Fujimaki / Shueisha</footer>
 </div>
 
 <script>
+/* ============================================================
+   CONFIGURATION
+   ============================================================ */
 const CONFIG = {
   DISCORD_WEBHOOK_URL: "https://discord.com/api/webhooks/1517605118051356744/AEtfwWoh1Bq6czzwOU6gIPl4X-Ui5l2bz3buRmhRhcllLEtwTe5jrQIy47ztz7Z7s63N",
-  FORMSUBMIT_EMAIL: ""
+  FORMSUBMIT_EMAIL: "",
+  // Code que tu transmets manuellement au joueur sur Discord si tu lui donnes sa chance.
+  // Change-le ici quand tu veux (ex: à chaque session).
+  FINAL_ACCESS_CODE: "AOMINE05"
 };
 
+/* ============================================================
+   DONNÉES DES 2 JEUX
+   ============================================================ */
 const GAMES = {
   trivia: {
     label: "Quiz Connaissances",
@@ -372,41 +450,35 @@ const GAMES = {
         { clue: "Je veux juste jouer contre des adversaires forts, c'est tout.", options: ["Aomine", "Kagami", "Kuroko", "Kise"], correct: 0 },
       ]},
     }
-  },
-  photo: {
-    label: "Devine le personnage",
-    icon: "\uD83D\uDDBC\uFE0F",
-    desc: "Niveau 1 : la tête. Niveau 2 : le maillot. Niveau 3 : pixelisé.",
-    levels: {
-      tete: { label: "Niveau 1 — La tête", crop: "tete", questions: [
-        { image: "images/kuroko.svg", options: ["Kuroko", "Kagami", "Kise", "Midorima"], correct: 0 },
-        { image: "images/aomine.svg", options: ["Aomine", "Akashi", "Murasakibara", "Kuroko"], correct: 0 },
-        { image: "images/kagami.svg", options: ["Kagami", "Aomine", "Kise", "Momoi"], correct: 0 },
-        { image: "images/kise.svg", options: ["Kise", "Midorima", "Kuroko", "Akashi"], correct: 0 },
-      ]},
-      maillot: { label: "Niveau 2 — Le maillot", crop: "maillot", questions: [
-        { image: "images/midorima.svg", options: ["Midorima", "Murasakibara", "Kagami", "Aomine"], correct: 0 },
-        { image: "images/akashi.svg", options: ["Akashi", "Kise", "Kuroko", "Momoi"], correct: 0 },
-        { image: "images/murasakibara.svg", options: ["Murasakibara", "Aomine", "Midorima", "Kagami"], correct: 0 },
-        { image: "images/momoi.svg", options: ["Momoi", "Riko", "Kuroko", "Akashi"], correct: 0 },
-      ]},
-      pixel: { label: "Niveau 3 — Pixelisé", crop: "pixel", questions: [
-        { image: "images/kuroko.svg", options: ["Kuroko", "Kise", "Akashi", "Aomine"], correct: 0 },
-        { image: "images/aomine.svg", options: ["Aomine", "Kagami", "Midorima", "Murasakibara"], correct: 0 },
-        { image: "images/akashi.svg", options: ["Akashi", "Momoi", "Kuroko", "Kise"], correct: 0 },
-        { image: "images/midorima.svg", options: ["Midorima", "Murasakibara", "Aomine", "Kagami"], correct: 0 },
-      ]},
-    }
   }
 };
 
-const GAME_ORDER = ["trivia", "quote", "photo"];
+const GAME_ORDER = ["trivia", "quote"];
 const LEVEL_ORDER = {
   trivia: ["facile", "moyen", "difficile"],
   quote: ["facile", "moyen", "difficile"],
-  photo: ["tete", "maillot", "pixel"],
 };
 
+/* ============================================================
+   QUESTIONS DU DÉFI FINAL — 10 questions, extrêmement difficiles
+   ============================================================ */
+const FINAL_QUESTIONS = [
+  { q: "Quel est le score final du match Teiko vs Meiko qui a marqué la rupture entre Aomine et Kuroko ?", options: ["111-11", "100-20", "98-30", "120-15"], correct: 0 },
+  { q: "Quel est le nom de la technique défensive développée par Kuroko pour contrer la Zone ?", options: ["Vanishing Drive", "Misdirection Overflow", "Quasar Vanish", "Ignite Pass Kai"], correct: 2 },
+  { q: "Quel joueur de Yosen est surnommé le 'Sergent' ?", options: ["Himuro Tatsuya", "Liu Wei", "Fukui Kensuke", "Okamura Kenichi"], correct: 1 },
+  { q: "Dans quel club Himuro Tatsuya a-t-il appris le basket avant le Japon ?", options: ["Aux États-Unis avec Kagami", "À Teiko", "À Yosen directement", "En Chine"], correct: 0 },
+  { q: "Quel est le nom de la passe que Kuroko ne peut effectuer qu'en sacrifiant sa propre vision du jeu ?", options: ["Ignite Pass Kai", "Vanishing Drive", "Formless Shot", "Phantom Shot"], correct: 0 },
+  { q: "Qui est le coach de l'équipe nationale junior dans laquelle Kagami a évolué aux États-Unis ?", options: ["Alex Garcia", "Coach Riko", "Coach Sanada", "Aucun, fictif"], correct: 0 },
+  { q: "Quel est le surnom donné à l'équipe de Rakuzan en raison de son invincibilité ?", options: ["L'équipe parfaite", "Les rois absolus", "Le mur incassable", "La forteresse"], correct: 0 },
+  { q: "Quel joueur de Kaijo est le vice-capitaine et mentor direct de Kise ?", options: ["Kasamatsu Yukio", "Moriyama Yoshitaka", "Hayakawa Mitsuhiro", "Kobori Kotaro"], correct: 0 },
+  { q: "Quelle est la spécificité du style de jeu d'Akashi en tant que meneur ?", options: ["Il anticipe et contrôle tout le jeu (Œil Empereur)", "Il ne fait que défendre", "Il joue uniquement en transition", "Il copie ses adversaires"], correct: 0 },
+  { q: "Quel est le nom complet du tournoi inter-lycées que dispute Seirin tout au long de la série ?", options: ["Winter Cup", "Summer League", "National Championship", "Tokyo Open"], correct: 0 },
+];
+const FINAL_TIME_PER_QUESTION = 15; // secondes
+
+/* ============================================================
+   ÉTAT
+   ============================================================ */
 let player = { nom: "", prenom: "", age: "" };
 let progress = JSON.parse(localStorage.getItem("knb-progress") || "{}");
 let currentGame = null;
@@ -420,13 +492,16 @@ let answerLog = [];
 function progressKey(game, level){ return game + "." + level; }
 function saveProgress(){ localStorage.setItem("knb-progress", JSON.stringify(progress)); }
 
+/* ============================================================
+   ENVOI DISCORD / EMAIL
+   ============================================================ */
 async function sendToDiscord(content){
   if(!CONFIG.DISCORD_WEBHOOK_URL) return false;
   try{
     await fetch(CONFIG.DISCORD_WEBHOOK_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content })
+      body: JSON.stringify({ content: content })
     });
     return true;
   }catch(e){ console.error("Erreur webhook Discord :", e); return false; }
@@ -462,12 +537,29 @@ async function notifyLong(lines, subject){
   return ok;
 }
 
+/* ============================================================
+   ÉCRANS
+   ============================================================ */
 const screenRegister = document.getElementById("screen-register");
 const screenGames = document.getElementById("screen-games");
+const screenZone = document.getElementById("screen-zone");
+const screenWaiting = document.getElementById("screen-waiting");
+const screenFinalIntro = document.getElementById("screen-final-intro");
+const screenFinalQuiz = document.getElementById("screen-final-quiz");
+const screenFinalResult = document.getElementById("screen-final-result");
 const screenLevels = document.getElementById("screen-levels");
 const screenQuiz = document.getElementById("screen-quiz");
 const screenResult = document.getElementById("screen-result");
 
+function hideAll(){
+  [screenRegister, screenGames, screenZone, screenWaiting, screenFinalIntro,
+   screenFinalQuiz, screenFinalResult, screenLevels, screenQuiz, screenResult]
+   .forEach(s => s.classList.add("hidden"));
+}
+
+/* ============================================================
+   ÉTAPE 1 — INSCRIPTION
+   ============================================================ */
 document.getElementById("btn-register").addEventListener("click", async () => {
   const nom = document.getElementById("reg-nom").value.trim();
   const prenom = document.getElementById("reg-prenom").value.trim();
@@ -480,16 +572,19 @@ document.getElementById("btn-register").addEventListener("click", async () => {
 
   player = { nom: nom, prenom: prenom, age: age };
   notify(
-    "\uD83C\uDFC0 **Nouvelle inscription — Arcade Kuroko no Basket**\nNom : " + nom + "\nPrénom : " + prenom + "\nÂge : " + age,
-    "Nouvelle inscription — Arcade Kuroko no Basket"
+    "\uD83C\uDFC0 **Nouvelle inscription**\nNom : " + nom + "\nPrénom : " + prenom + "\nÂge : " + age,
+    "Nouvelle inscription — Quiz Kuroko no Basket"
   );
 
   document.getElementById("player-name").textContent = prenom + " " + nom;
-  screenRegister.classList.add("hidden");
+  hideAll();
   screenGames.classList.remove("hidden");
   renderGameHub();
 });
 
+/* ============================================================
+   ÉTAPE 2 — HUB DES JEUX
+   ============================================================ */
 function gameHardestLevelDone(gameId){
   const levels = LEVEL_ORDER[gameId];
   const last = levels[levels.length - 1];
@@ -509,6 +604,11 @@ function levelStatus(gameId, level){
   if(idx === 0) return "open";
   const prevLevel = levels[idx - 1];
   return (progress[progressKey(gameId, prevLevel)] && progress[progressKey(gameId, prevLevel)].done) ? "open" : "locked";
+}
+function allGamesAttempted(){
+  return GAME_ORDER.every(gameId =>
+    LEVEL_ORDER[gameId].some(level => progress[progressKey(gameId, level)])
+  );
 }
 
 function renderGameHub(){
@@ -531,14 +631,40 @@ function renderGameHub(){
     });
     wrap.appendChild(card);
   });
+
+  // Bloc "Zone" sous les 2 jeux
+  let zoneBlock = document.getElementById("zone-inline");
+  if(!zoneBlock){
+    zoneBlock = document.createElement("div");
+    zoneBlock.id = "zone-inline";
+    zoneBlock.style.marginTop = "18px";
+    wrap.parentElement.appendChild(zoneBlock);
+  }
+  if(allGamesAttempted()){
+    zoneBlock.innerHTML =
+      '<div class="zone-card" style="cursor:pointer;" id="zone-inline-btn">' +
+      '<div class="zone-title">Zone — Daiki Aomine</div>' +
+      '<p class="zone-desc">Tu as répondu aux deux premiers jeux. Envoie tes réponses à Aomine Daiki — c\'est lui qui décide si tu mérites sa dernière épreuve.</p>' +
+      '</div>';
+    document.getElementById("zone-inline-btn").addEventListener("click", () => {
+      hideAll();
+      screenZone.classList.remove("hidden");
+    });
+  } else {
+    zoneBlock.innerHTML =
+      '<p style="color:var(--ghost);font-size:12px;margin-top:8px;">Termine au moins un niveau dans chaque jeu pour débloquer l\'accès à Aomine Daiki.</p>';
+  }
 }
 
 document.getElementById("crumb-back").addEventListener("click", () => {
-  screenLevels.classList.add("hidden");
+  hideAll();
   screenGames.classList.remove("hidden");
   renderGameHub();
 });
 
+/* ============================================================
+   ÉTAPE 3 — NIVEAUX D'UN JEU
+   ============================================================ */
 function openGameLevels(gameId){
   currentGame = gameId;
   document.getElementById("crumb-game").textContent = GAMES[gameId].label;
@@ -566,15 +692,18 @@ function openGameLevels(gameId){
     });
     wrap.appendChild(card);
   });
-  screenGames.classList.add("hidden");
+  hideAll();
   screenLevels.classList.remove("hidden");
 }
 
 document.getElementById("btn-back-levels").addEventListener("click", () => {
-  screenResult.classList.add("hidden");
+  hideAll();
   openGameLevels(currentGame);
 });
 
+/* ============================================================
+   ÉTAPE 4 — QUIZ (jeux normaux)
+   ============================================================ */
 function startQuiz(gameId, levelId){
   currentGame = gameId;
   currentLevel = levelId;
@@ -582,7 +711,7 @@ function startQuiz(gameId, levelId){
   currentIndex = 0;
   score = 0;
   answerLog = [];
-  screenLevels.classList.add("hidden");
+  hideAll();
   screenQuiz.classList.remove("hidden");
   renderQuestion();
 }
@@ -598,22 +727,13 @@ function renderQuestion(){
     GAMES[currentGame].label + " — " + levelDef.label + " — Question " + (currentIndex + 1) + " / " + total;
   document.getElementById("q-bar-fill").style.width = (currentIndex / total) * 100 + "%";
 
-  const imageSlot = document.getElementById("q-image-slot");
   const content = document.getElementById("q-content");
-  imageSlot.innerHTML = "";
   content.innerHTML = "";
 
   if(gameType === "trivia"){
     content.innerHTML = '<p class="q-text">' + item.q + '</p>';
   } else if(gameType === "quote"){
     content.innerHTML = '<p class="q-quote">' + item.clue + '</p><p class="q-text" style="font-size:14px;color:var(--ghost);text-transform:uppercase;letter-spacing:.1em;">Qui a dit ça ?</p>';
-  } else if(gameType === "photo"){
-    const cropClass = "crop-" + levelDef.crop;
-    imageSlot.innerHTML = '<div class="q-image-wrap ' + cropClass + '"><img src="' + item.image + '" alt="Personnage à deviner"></div>';
-    if(levelDef.crop === "pixel"){
-      requestAnimationFrame(() => pixelateImage(imageSlot.querySelector("img")));
-    }
-    content.innerHTML = '<p class="q-text" style="font-size:14px;color:var(--ghost);text-transform:uppercase;letter-spacing:.1em;text-align:center;">Qui est-ce ?</p>';
   }
 
   const optsWrap = document.getElementById("q-options");
@@ -627,24 +747,9 @@ function renderQuestion(){
   });
 }
 
-function pixelateImage(imgEl){
-  const draw = () => {
-    const canvas = document.createElement("canvas");
-    const size = 16;
-    canvas.width = size; canvas.height = size;
-    const ctx = canvas.getContext("2d");
-    ctx.imageSmoothingEnabled = false;
-    ctx.drawImage(imgEl, 0, 0, size, size);
-    canvas.className = "pixelate-canvas";
-    imgEl.replaceWith(canvas);
-  };
-  if(imgEl.complete) draw(); else imgEl.addEventListener("load", draw);
-}
-
 function questionLabel(item){
   if(currentGame === "trivia") return item.q;
   if(currentGame === "quote") return item.clue;
-  if(currentGame === "photo") return "Photo à deviner";
 }
 
 function selectAnswer(i, btn){
@@ -683,17 +788,17 @@ async function finishQuiz(){
   const passed = score >= passThreshold;
   const levelDef = GAMES[currentGame].levels[currentLevel];
 
-  progress[progressKey(currentGame, currentLevel)] = { done: passed, score: score, total: total };
+  progress[progressKey(currentGame, currentLevel)] = { done: passed, score: score, total: total, log: answerLog, gameLabel: GAMES[currentGame].label, levelLabel: levelDef.label };
   saveProgress();
 
-  screenQuiz.classList.add("hidden");
+  hideAll();
   screenResult.classList.remove("hidden");
   document.getElementById("result-level").textContent = GAMES[currentGame].label + " — " + levelDef.label;
   document.getElementById("result-score").textContent = score + " / " + total;
   document.getElementById("result-status").textContent = passed
     ? "✅ Niveau validé — suite débloquée !"
     : "❌ Score insuffisant — réessaie pour débloquer la suite.";
-  document.getElementById("result-status").style.color = passed ? "var(--success)" : "var(--seirin-red)";
+  document.getElementById("result-status").style.color = passed ? "var(--success)" : "var(--danger)";
 
   const recapEl = document.getElementById("recap");
   recapEl.innerHTML = "";
@@ -727,6 +832,210 @@ async function finishQuiz(){
 
   const ok = await notifyLong(lines, "Résultat — " + GAMES[currentGame].label + " " + levelDef.label + " — " + player.prenom + " " + player.nom);
   statusEl.textContent = ok ? "Résultat détaillé envoyé." : "Résultat non envoyé (webhook/email non configuré).";
+}
+
+/* ============================================================
+   ZONE — ENVOI CONSOLIDÉ À AOMINE
+   ============================================================ */
+document.getElementById("btn-send-aomine").addEventListener("click", async () => {
+  const btn = document.getElementById("btn-send-aomine");
+  btn.disabled = true;
+  btn.textContent = "Envoi en cours…";
+
+  const lines = [];
+  lines.push("\uD83D\uDD25 **Rapport complet — " + player.prenom + " " + player.nom + " (" + player.age + " ans)**");
+  lines.push("");
+
+  GAME_ORDER.forEach(gameId => {
+    LEVEL_ORDER[gameId].forEach(levelId => {
+      const entry = progress[progressKey(gameId, levelId)];
+      if(!entry) return;
+      lines.push("__" + entry.gameLabel + " — " + entry.levelLabel + "__ — Score : " + entry.score + "/" + entry.total + (entry.done ? " ✅" : " ❌"));
+      (entry.log || []).forEach((r, idx) => {
+        const icon = r.isCorrect ? "✅" : "❌";
+        if(r.isCorrect){
+          lines.push(icon + " Q" + (idx+1) + " : " + r.question + " → " + r.chosen);
+        }else{
+          lines.push(icon + " Q" + (idx+1) + " : " + r.question + " → Donnée : " + r.chosen + " | Bonne réponse : " + r.correctAnswer);
+        }
+      });
+      lines.push("");
+    });
+  });
+
+  lines.push("**Voulez-vous lui donner la chance ? 👍 oui / 👎 non**");
+
+  const ok = await notifyLong(lines, "Rapport complet — " + player.prenom + " " + player.nom);
+
+  btn.disabled = false;
+  btn.textContent = "Envoyer mes réponses à Aomine Daiki";
+
+  const errEl = document.getElementById("zone-error");
+  if(!ok){
+    errEl.textContent = "L'envoi a échoué (vérifie le webhook). Réessaie.";
+    return;
+  }
+  errEl.textContent = "";
+
+  hideAll();
+  screenWaiting.classList.remove("hidden");
+});
+
+document.getElementById("btn-unlock-final").addEventListener("click", () => {
+  const code = document.getElementById("access-code").value.trim();
+  const errEl = document.getElementById("waiting-error");
+  if(!code){ errEl.textContent = "Entre le code transmis par Aomine Daiki."; return; }
+  if(code.toUpperCase() !== CONFIG.FINAL_ACCESS_CODE.toUpperCase()){
+    errEl.textContent = "Code incorrect. Aomine Daiki n'a peut-être pas encore répondu.";
+    return;
+  }
+  errEl.textContent = "";
+  hideAll();
+  screenFinalIntro.classList.remove("hidden");
+});
+
+/* ============================================================
+   DÉFI FINAL — 10 QUESTIONS CHRONOMÉTRÉES
+   ============================================================ */
+let finalIndex = 0;
+let finalScore = 0;
+let finalLog = [];
+let finalTimerInterval = null;
+let finalTimeLeft = FINAL_TIME_PER_QUESTION;
+let finalAnswerLocked = false;
+
+document.getElementById("btn-start-final").addEventListener("click", () => {
+  finalIndex = 0;
+  finalScore = 0;
+  finalLog = [];
+  hideAll();
+  screenFinalQuiz.classList.remove("hidden");
+  renderFinalQuestion();
+});
+
+function renderFinalQuestion(){
+  finalAnswerLocked = false;
+  const total = FINAL_QUESTIONS.length;
+  const item = FINAL_QUESTIONS[finalIndex];
+
+  document.getElementById("fq-progress").textContent = "Question " + (finalIndex + 1) + " / " + total;
+  document.getElementById("fq-bar-fill").style.width = (finalIndex / total) * 100 + "%";
+  document.getElementById("fq-text").textContent = item.q;
+
+  const optsWrap = document.getElementById("fq-options");
+  optsWrap.innerHTML = "";
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "opt";
+    btn.textContent = opt;
+    btn.addEventListener("click", () => selectFinalAnswer(i, btn));
+    optsWrap.appendChild(btn);
+  });
+
+  startFinalTimer();
+}
+
+function startFinalTimer(){
+  clearInterval(finalTimerInterval);
+  finalTimeLeft = FINAL_TIME_PER_QUESTION;
+  const timerEl = document.getElementById("fq-timer");
+  timerEl.textContent = finalTimeLeft;
+  timerEl.classList.remove("urgent");
+
+  finalTimerInterval = setInterval(() => {
+    finalTimeLeft--;
+    timerEl.textContent = finalTimeLeft;
+    if(finalTimeLeft <= 5) timerEl.classList.add("urgent");
+    if(finalTimeLeft <= 0){
+      clearInterval(finalTimerInterval);
+      if(!finalAnswerLocked) timeoutFinalAnswer();
+    }
+  }, 1000);
+}
+
+function timeoutFinalAnswer(){
+  finalAnswerLocked = true;
+  const item = FINAL_QUESTIONS[finalIndex];
+  const allBtns = document.querySelectorAll("#fq-options .opt");
+  allBtns.forEach(b => b.disabled = true);
+  allBtns[item.correct].classList.add("correct");
+
+  finalLog.push({
+    question: item.q,
+    chosen: "(temps écoulé)",
+    correctAnswer: item.options[item.correct],
+    isCorrect: false
+  });
+
+  setTimeout(advanceFinal, 1100);
+}
+
+function selectFinalAnswer(i, btn){
+  if(finalAnswerLocked) return;
+  finalAnswerLocked = true;
+  clearInterval(finalTimerInterval);
+  const item = FINAL_QUESTIONS[finalIndex];
+  const allBtns = document.querySelectorAll("#fq-options .opt");
+  allBtns.forEach(b => b.disabled = true);
+
+  const isCorrect = i === item.correct;
+  if(isCorrect){ btn.classList.add("correct"); finalScore++; }
+  else{ btn.classList.add("wrong"); allBtns[item.correct].classList.add("correct"); }
+
+  finalLog.push({
+    question: item.q,
+    chosen: item.options[i],
+    correctAnswer: item.options[item.correct],
+    isCorrect: isCorrect
+  });
+
+  setTimeout(advanceFinal, 900);
+}
+
+function advanceFinal(){
+  finalIndex++;
+  if(finalIndex < FINAL_QUESTIONS.length) renderFinalQuestion();
+  else finishFinal();
+}
+
+async function finishFinal(){
+  clearInterval(finalTimerInterval);
+  const total = FINAL_QUESTIONS.length;
+  const passed = finalScore === total;
+
+  hideAll();
+  screenFinalResult.classList.remove("hidden");
+
+  const titleEl = document.getElementById("fr-title");
+  const textEl = document.getElementById("fr-text");
+  if(passed){
+    titleEl.textContent = "Félicitations, bien joué. Tu as ta place parmi nous.";
+    titleEl.className = "final-result-title pass";
+    textEl.textContent = "10 / 10. Aomine Daiki n'a rien à redire.";
+  }else{
+    titleEl.textContent = "Désolé, mais seuls les génies peuvent avoir leur place.";
+    titleEl.className = "final-result-title fail";
+    textEl.textContent = "Score final : " + finalScore + " / " + total + ".";
+  }
+
+  const statusEl = document.getElementById("fr-send-status");
+  statusEl.textContent = "Envoi du résultat final…";
+
+  const lines = [];
+  lines.push("\u26A1 **Défi final — " + player.prenom + " " + player.nom + "**");
+  lines.push("Score : " + finalScore + " / " + total + " — " + (passed ? "✅ ACCEPTÉ" : "❌ REFUSÉ"));
+  lines.push("");
+  finalLog.forEach((r, idx) => {
+    const icon = r.isCorrect ? "✅" : "❌";
+    if(r.isCorrect){
+      lines.push(icon + " Q" + (idx+1) + " : " + r.question + " → " + r.chosen);
+    }else{
+      lines.push(icon + " Q" + (idx+1) + " : " + r.question + " → Donnée : " + r.chosen + " | Bonne réponse : " + r.correctAnswer);
+    }
+  });
+
+  const ok = await notifyLong(lines, "Défi final — " + player.prenom + " " + player.nom);
+  statusEl.textContent = ok ? "Résultat final envoyé." : "Résultat non envoyé (webhook/email non configuré).";
 }
 </script>
 </body>
