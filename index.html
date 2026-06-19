@@ -116,6 +116,8 @@
   .btn-row{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;}
   .btn-danger{background:var(--danger);box-shadow:0 8px 22px -10px rgba(255,93,59,0.6);}
   .btn-danger:hover{background:#ff7556;}
+  .btn-ghost{background:transparent;border:1px solid var(--edge);color:var(--ghost);box-shadow:none;}
+  .btn-ghost:hover{background:rgba(255,255,255,0.05);color:var(--text);}
 
   .error{color:var(--danger);font-size:13px;margin-top:10px;min-height:16px;}
 
@@ -311,6 +313,7 @@
       <p class="zone-desc">Envoie tes réponses à Aomine Daiki. S'il estime que tu en vaux la peine, il te laissera tenter sa dernière épreuve — 10 questions, et zéro droit à l'erreur.</p>
       <div class="btn-row">
         <button class="btn btn-danger" id="btn-send-aomine">Envoyer mes réponses à Aomine Daiki</button>
+        <button class="btn btn-ghost" id="btn-zone-back">← Retour aux jeux</button>
       </div>
       <p class="error" id="zone-error"></p>
     </div>
@@ -350,6 +353,9 @@
     <p class="final-result-title" id="fr-title"></p>
     <p class="final-result-text" id="fr-text"></p>
     <p class="send-status" id="fr-send-status"></p>
+    <div class="btn-row" style="margin-top:24px;">
+      <button class="btn btn-ghost" id="btn-final-back-games">← Retour aux jeux</button>
+    </div>
   </section>
 
   <section id="screen-levels" class="panel hidden">
@@ -373,7 +379,7 @@
     <div class="recap" id="recap"></div>
     <div class="btn-row">
       <button class="btn" id="btn-back-levels">Retour aux niveaux</button>
-      <button class="btn btn-ghost" id="btn-back-games">&larr; Retour aux jeux</button>
+      <button class="btn btn-ghost" id="btn-back-games">← Retour aux jeux</button>
     </div>
   </section>
 
@@ -387,8 +393,6 @@
 const CONFIG = {
   DISCORD_WEBHOOK_URL: "https://discord.com/api/webhooks/1517605118051356744/AEtfwWoh1Bq6czzwOU6gIPl4X-Ui5l2bz3buRmhRhcllLEtwTe5jrQIy47ztz7Z7s63N",
   FORMSUBMIT_EMAIL: "",
-  // Code que tu transmets manuellement au joueur sur Discord si tu lui donnes sa chance.
-  // Change-le ici quand tu veux (ex: à chaque session).
   FINAL_ACCESS_CODE: "AOMINE05"
 };
 
@@ -462,7 +466,7 @@ const LEVEL_ORDER = {
 };
 
 /* ============================================================
-   QUESTIONS DU DÉFI FINAL — 10 questions, extrêmement difficiles
+   QUESTIONS DU DÉFI FINAL
    ============================================================ */
 const FINAL_QUESTIONS = [
   { q: "Quel est le score final du match Teiko vs Meiko qui a marqué la rupture entre Aomine et Kuroko ?", options: ["111-11", "100-20", "98-30", "120-15"], correct: 0 },
@@ -476,7 +480,7 @@ const FINAL_QUESTIONS = [
   { q: "Quelle est la spécificité du style de jeu d'Akashi en tant que meneur ?", options: ["Il anticipe et contrôle tout le jeu (Œil Empereur)", "Il ne fait que défendre", "Il joue uniquement en transition", "Il copie ses adversaires"], correct: 0 },
   { q: "Quel est le nom complet du tournoi inter-lycées que dispute Seirin tout au long de la série ?", options: ["Winter Cup", "Summer League", "National Championship", "Tokyo Open"], correct: 0 },
 ];
-const FINAL_TIME_PER_QUESTION = 15; // secondes
+const FINAL_TIME_PER_QUESTION = 15;
 
 /* ============================================================
    ÉTAT
@@ -502,9 +506,8 @@ function shuffleArray(arr){
   }
   return a;
 }
-// Mélange les questions (ordre) et, pour chacune, l'ordre des options (en
-// remappant l'index de la bonne réponse). Renvoie une nouvelle liste, ne
-// modifie jamais les données d'origine — comme ça chaque partie est différente.
+
+// Mélange l'ordre des questions ET l'ordre des options à chaque partie
 function shuffleQuestions(list){
   const shuffledList = shuffleArray(list);
   return shuffledList.map(item => {
@@ -584,6 +587,12 @@ function hideAll(){
    .forEach(s => s.classList.add("hidden"));
 }
 
+function goToGames(){
+  hideAll();
+  screenGames.classList.remove("hidden");
+  renderGameHub();
+}
+
 /* ============================================================
    ÉTAPE 1 — INSCRIPTION
    ============================================================ */
@@ -604,34 +613,49 @@ document.getElementById("btn-register").addEventListener("click", async () => {
   );
 
   document.getElementById("player-name").textContent = prenom + " " + nom;
-  hideAll();
-  screenGames.classList.remove("hidden");
-  renderGameHub();
+  goToGames();
 });
 
 /* ============================================================
    ÉTAPE 2 — HUB DES JEUX
+   ============================================================
+   CORRECTION BUG #1 : le jeu 2 se débloque dès qu'un niveau
+   du jeu 1 a été TENTÉ (pas besoin d'être validé avec ≥50%).
+   On utilise hasAttempted() au lieu de gameHardestLevelDone().
    ============================================================ */
+function hasAttemptedAnyLevel(gameId){
+  return LEVEL_ORDER[gameId].some(level => progress[progressKey(gameId, level)] !== undefined);
+}
 function gameHardestLevelDone(gameId){
   const levels = LEVEL_ORDER[gameId];
   const last = levels[levels.length - 1];
-  return !!(progress[progressKey(gameId, last)] && progress[progressKey(gameId, last)].done);
+  const entry = progress[progressKey(gameId, last)];
+  return !!(entry && entry.done);
 }
 function gameStatus(gameId){
   const idx = GAME_ORDER.indexOf(gameId);
   if(idx === 0) return gameHardestLevelDone(gameId) ? "done" : "open";
-  const prevDone = gameHardestLevelDone(GAME_ORDER[idx - 1]);
-  if(!prevDone) return "locked";
+  // Le jeu suivant se débloque dès qu'on a tenté au moins un niveau dans le jeu précédent
+  const prevAttempted = hasAttemptedAnyLevel(GAME_ORDER[idx - 1]);
+  if(!prevAttempted) return "locked";
   return gameHardestLevelDone(gameId) ? "done" : "open";
 }
+
+/* Le niveau suivant se débloque dès qu'on a TENTÉ le niveau précédent */
 function levelStatus(gameId, level){
-  if(progress[progressKey(gameId, level)] && progress[progressKey(gameId, level)].done) return "done";
+  const entry = progress[progressKey(gameId, level)];
+  // Si joué ET validé → done
+  if(entry && entry.done) return "done";
   const levels = LEVEL_ORDER[gameId];
   const idx = levels.indexOf(level);
+  // Premier niveau toujours ouvert
   if(idx === 0) return "open";
   const prevLevel = levels[idx - 1];
-  return (progress[progressKey(gameId, prevLevel)] && progress[progressKey(gameId, prevLevel)].done) ? "open" : "locked";
+  // Débloqué dès que le niveau précédent a été TENTÉ (entry existe, validé ou non)
+  const prevEntry = progress[progressKey(gameId, prevLevel)];
+  return prevEntry !== undefined ? "open" : "locked";
 }
+
 function allGamesAttempted(){
   return GAME_ORDER.every(gameId =>
     LEVEL_ORDER[gameId].some(level => progress[progressKey(gameId, level)])
@@ -679,15 +703,14 @@ function renderGameHub(){
     });
   } else {
     zoneBlock.innerHTML =
-      '<p style="color:var(--ghost);font-size:12px;margin-top:8px;">Termine au moins un niveau dans chaque jeu pour débloquer l\'accès à Aomine Daiki.</p>';
+      '<p style="color:var(--ghost);font-size:12px;margin-top:8px;">Joue au moins un niveau dans chaque jeu pour débloquer l\'accès à Aomine Daiki.</p>';
   }
 }
 
-document.getElementById("crumb-back").addEventListener("click", () => {
-  hideAll();
-  screenGames.classList.remove("hidden");
-  renderGameHub();
-});
+/* Retour depuis la page Zone */
+document.getElementById("btn-zone-back").addEventListener("click", goToGames);
+
+document.getElementById("crumb-back").addEventListener("click", goToGames);
 
 /* ============================================================
    ÉTAPE 3 — NIVEAUX D'UN JEU
@@ -705,9 +728,15 @@ function openGameLevels(gameId){
     card.dataset.status = status;
     const tagClass = status === "open" ? "tag-open" : status === "done" ? "tag-done" : "tag-locked";
     const tagText = status === "open" ? "Ouvert" : status === "done" ? "Terminé" : "Verrouillé";
-    const meta = progress[progressKey(gameId, levelId)]
-      ? "Dernier score : " + progress[progressKey(gameId, levelId)].score + "/" + progress[progressKey(gameId, levelId)].total
-      : (status === "locked" ? "Termine le niveau précédent pour débloquer." : "Prêt à jouer.");
+    const entry = progress[progressKey(gameId, levelId)];
+    let meta;
+    if(entry){
+      meta = "Dernier score : " + entry.score + "/" + entry.total;
+    } else if(status === "locked"){
+      meta = "Termine le niveau précédent pour débloquer.";
+    } else {
+      meta = "Prêt à jouer.";
+    }
     card.innerHTML =
       '<div class="level-num">0' + (i+1) + '</div>' +
       '<div class="level-info"><div class="level-title">' + level.label + '</div>' +
@@ -727,12 +756,7 @@ document.getElementById("btn-back-levels").addEventListener("click", () => {
   hideAll();
   openGameLevels(currentGame);
 });
-
-document.getElementById("btn-back-games").addEventListener("click", () => {
-  hideAll();
-  screenGames.classList.remove("hidden");
-  renderGameHub();
-});
+document.getElementById("btn-back-games").addEventListener("click", goToGames);
 
 /* ============================================================
    ÉTAPE 4 — QUIZ (jeux normaux)
@@ -783,6 +807,7 @@ function renderQuestion(){
 function questionLabel(item){
   if(currentGame === "trivia") return item.q;
   if(currentGame === "quote") return item.clue;
+  return "";
 }
 
 function selectAnswer(i, btn){
@@ -817,20 +842,38 @@ function selectAnswer(i, btn){
 
 async function finishQuiz(){
   const total = currentQuestions.length;
+  // Validé si score >= 50%, mais le niveau est TOUJOURS enregistré comme "tenté"
   const passThreshold = Math.ceil(total * 0.5);
   const passed = score >= passThreshold;
   const levelDef = GAMES[currentGame].levels[currentLevel];
 
-  progress[progressKey(currentGame, currentLevel)] = { done: passed, score: score, total: total, log: answerLog, gameLabel: GAMES[currentGame].label, levelLabel: levelDef.label };
+  progress[progressKey(currentGame, currentLevel)] = {
+    done: passed,
+    score: score,
+    total: total,
+    log: answerLog,
+    gameLabel: GAMES[currentGame].label,
+    levelLabel: levelDef.label
+  };
   saveProgress();
 
   hideAll();
   screenResult.classList.remove("hidden");
   document.getElementById("result-level").textContent = GAMES[currentGame].label + " — " + levelDef.label;
   document.getElementById("result-score").textContent = score + " / " + total;
-  document.getElementById("result-status").textContent = passed
-    ? "✅ Niveau validé — suite débloquée !"
-    : "❌ Score insuffisant — réessaie pour débloquer la suite.";
+
+  // Message adapté : si pas validé mais tenté, encourage à continuer sans bloquer
+  let statusMsg;
+  if(passed){
+    statusMsg = "✅ Niveau validé — suite débloquée !";
+  } else {
+    const nextLevelIdx = LEVEL_ORDER[currentGame].indexOf(currentLevel) + 1;
+    const hasNextLevel = nextLevelIdx < LEVEL_ORDER[currentGame].length;
+    statusMsg = hasNextLevel
+      ? "❌ Score insuffisant — le niveau suivant reste accessible, réessaie pour améliorer ton score."
+      : "❌ Score insuffisant — tu peux rejouer pour faire mieux.";
+  }
+  document.getElementById("result-status").textContent = statusMsg;
   document.getElementById("result-status").style.color = passed ? "var(--success)" : "var(--danger)";
 
   const recapEl = document.getElementById("recap");
@@ -896,7 +939,8 @@ document.getElementById("btn-send-aomine").addEventListener("click", async () =>
     });
   });
 
-  lines.push("**Voulez-vous lui donner la chance ? 👍 oui / 👎 non**");
+  lines.push("🔑 **Code d'accès au défi final : `" + CONFIG.FINAL_ACCESS_CODE + "`**");
+  lines.push("_(Transmets ce code au joueur si tu l'acceptes)_");
 
   const ok = await notifyLong(lines, "Rapport complet — " + player.prenom + " " + player.nom);
 
@@ -942,11 +986,15 @@ document.getElementById("btn-start-final").addEventListener("click", () => {
   finalIndex = 0;
   finalScore = 0;
   finalLog = [];
+  // Nouveau shuffle à chaque démarrage = questions et options jamais dans le même ordre
   currentFinalQuestions = shuffleQuestions(FINAL_QUESTIONS);
   hideAll();
   screenFinalQuiz.classList.remove("hidden");
   renderFinalQuestion();
 });
+
+/* Retour aux jeux depuis le résultat final */
+document.getElementById("btn-final-back-games").addEventListener("click", goToGames);
 
 function renderFinalQuestion(){
   finalAnswerLocked = false;
