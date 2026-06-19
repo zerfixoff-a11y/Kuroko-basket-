@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generation of Miracles — Quiz Kuroko no Basket</title>
+<style>
+  :root{
+    --court:#0e1420;
+    --court-line:#1d2738;
+    --seirin-red:#d6321f;
+    --seirin-red-dim:#8c2316;
+    --kiseki-gold:#e8b13d;
+    --paper:#f4ede0;
+    --ghost:#7d8aa3;
+    --success:#3f9c5f;
+    --lock:#4a5468;
+    font-family: 'Oswald', 'Arial Narrow', sans-serif;
+  }
+  @font-face{
+    font-family:'Oswald';
+    src:local('Oswald');
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 20% 0%, rgba(214,50,31,0.08), transparent 45%),
+      radial-gradient(circle at 80% 100%, rgba(232,177,61,0.06), transparent 45%),
+      repeating-linear-gradient(0deg, var(--court) 0px, var(--court) 78px, var(--court-line) 79px, var(--court) 80px),
+      var(--court);
+    color:var(--paper);
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:40px 16px 80px;
+  }
+  .wrap{width:100%;max-width:720px;}
+
+  .eyebrow{
+    text-transform:uppercase;
+    letter-spacing:.35em;
+    font-size:11px;
+    color:var(--kiseki-gold);
+    margin:0 0 6px;
+  }
+  h1.brand{
+    font-family:Georgia, 'Times New Roman', serif;
+    font-weight:900;
+    font-style:italic;
+    font-size:clamp(34px,7vw,54px);
+    margin:0 0 4px;
+    letter-spacing:-1px;
+    line-height:1;
+  }
+  h1.brand span{color:var(--seirin-red);}
+  .sub{color:var(--ghost);font-size:14px;margin:0 0 36px;letter-spacing:.03em;}
+
+  .panel{
+    background:linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0.01));
+    border:1px solid rgba(255,255,255,0.08);
+    border-left:3px solid var(--seirin-red);
+    border-radius:4px;
+    padding:32px clamp(18px,5vw,40px);
+    margin-bottom:24px;
+  }
+
+  label{
+    display:block;
+    text-transform:uppercase;
+    font-size:11px;
+    letter-spacing:.15em;
+    color:var(--ghost);
+    margin:18px 0 6px;
+  }
+  label:first-of-type{margin-top:0;}
+  input[type=text], input[type=number]{
+    width:100%;
+    background:rgba(0,0,0,0.3);
+    border:1px solid rgba(255,255,255,0.15);
+    border-radius:3px;
+    padding:12px 14px;
+    color:var(--paper);
+    font-size:16px;
+    font-family:inherit;
+    outline:none;
+    transition:border-color .15s;
+  }
+  input:focus{border-color:var(--kiseki-gold);}
+
+  .btn{
+    appearance:none;
+    border:none;
+    cursor:pointer;
+    font-family:inherit;
+    text-transform:uppercase;
+    letter-spacing:.12em;
+    font-weight:600;
+    font-size:13px;
+    padding:14px 28px;
+    border-radius:3px;
+    background:var(--seirin-red);
+    color:var(--paper);
+    transition:transform .12s, background .15s;
+  }
+  .btn:hover{background:#ef3a23;}
+  .btn:active{transform:scale(.97);}
+  .btn:disabled{background:var(--lock);cursor:not-allowed;color:var(--ghost);}
+  .btn-row{margin-top:26px;display:flex;gap:12px;flex-wrap:wrap;}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.2);color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--kiseki-gold);background:transparent;color:var(--kiseki-gold);}
+
+  .error{color:var(--seirin-red);font-size:13px;margin-top:10px;min-height:16px;}
+
+  /* level cards */
+  .levels{display:grid;grid-template-columns:1fr;gap:14px;}
+  .level-card{
+    position:relative;
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:4px;
+    padding:20px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    cursor:pointer;
+    background:rgba(255,255,255,0.02);
+    transition:border-color .15s, background .15s;
+  }
+  .level-card.locked{cursor:not-allowed;opacity:.55;}
+  .level-card:not(.locked):hover{border-color:var(--kiseki-gold);background:rgba(232,177,61,0.04);}
+  .level-num{
+    font-family:Georgia,serif;
+    font-style:italic;
+    font-weight:900;
+    font-size:30px;
+    width:46px;
+    color:var(--seirin-red-dim);
+  }
+  .level-card[data-status="done"] .level-num{color:var(--success);}
+  .level-card.locked .level-num{color:var(--lock);}
+  .level-info{flex:1;}
+  .level-title{font-size:18px;text-transform:uppercase;letter-spacing:.05em;font-weight:600;}
+  .level-meta{font-size:12px;color:var(--ghost);margin-top:3px;}
+  .level-tag{
+    font-size:10px;text-transform:uppercase;letter-spacing:.1em;
+    padding:4px 9px;border-radius:20px;border:1px solid currentColor;
+  }
+  .tag-open{color:var(--kiseki-gold);}
+  .tag-done{color:var(--success);}
+  .tag-locked{color:var(--lock);}
+
+  /* quiz */
+  .q-progress{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--ghost);margin-bottom:14px;}
+  .q-bar{height:3px;background:rgba(255,255,255,0.08);border-radius:2px;margin-bottom:30px;overflow:hidden;}
+  .q-bar-fill{height:100%;background:var(--seirin-red);transition:width .25s;}
+  .q-text{font-size:22px;line-height:1.35;margin:0 0 26px;font-weight:500;}
+  .options{display:grid;gap:10px;}
+  .opt{
+    text-align:left;
+    border:1px solid rgba(255,255,255,0.15);
+    background:rgba(255,255,255,0.02);
+    color:var(--paper);
+    padding:14px 16px;
+    border-radius:3px;
+    cursor:pointer;
+    font-size:15px;
+    font-family:inherit;
+    transition:border-color .12s, background .12s;
+  }
+  .opt:hover{border-color:var(--kiseki-gold);}
+  .opt.selected{border-color:var(--kiseki-gold);background:rgba(232,177,61,0.08);}
+  .opt.correct{border-color:var(--success);background:rgba(63,156,95,0.12);}
+  .opt.wrong{border-color:var(--seirin-red);background:rgba(214,50,31,0.12);}
+  .opt:disabled{cursor:default;}
+
+  .result-score{
+    font-family:Georgia,serif;font-style:italic;font-weight:900;
+    font-size:54px;color:var(--kiseki-gold);margin:0;
+  }
+  .result-label{color:var(--ghost);font-size:13px;text-transform:uppercase;letter-spacing:.15em;}
+  .send-status{font-size:12px;color:var(--ghost);margin-top:14px;}
+
+  .hidden{display:none !important;}
+  footer{text-align:center;color:var(--ghost);font-size:11px;margin-top:30px;letter-spacing:.05em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <p class="eyebrow">Quiz officieux</p>
+  <h1 class="brand">Generation of <span>Miracles</span></h1>
+  <p class="sub">Teste tes connaissances sur Kuroko no Basket — 3 niveaux, 1 seul chemin.</p>
+
+  <!-- ÉTAPE 1 : INSCRIPTION -->
+  <section id="screen-register" class="panel">
+    <label for="reg-nom">Nom</label>
+    <input id="reg-nom" type="text" placeholder="Kuroko" autocomplete="family-name">
+
+    <label for="reg-prenom">Prénom</label>
+    <input id="reg-prenom" type="text" placeholder="Tetsuya" autocomplete="given-name">
+
+    <label for="reg-age">Âge</label>
+    <input id="reg-age" type="number" min="1" max="120" placeholder="16">
+
+    <div class="btn-row">
+      <button class="btn" id="btn-register">Entrer sur le terrain</button>
+    </div>
+    <p class="error" id="reg-error"></p>
+  </section>
+
+  <!-- ÉTAPE 2 : CHOIX DU NIVEAU -->
+  <section id="screen-levels" class="panel hidden">
+    <p class="eyebrow" style="margin-bottom:18px;">Bienvenue, <span id="player-name"></span></p>
+    <div class="levels">
+      <div class="level-card" data-level="facile" data-status="open">
+        <div class="level-num">01</div>
+        <div class="level-info">
+          <div class="level-title">Facile</div>
+          <div class="level-meta">Les bases — tout le monde commence ici.</div>
+        </div>
+        <div class="level-tag tag-open" id="tag-facile">Ouvert</div>
+      </div>
+      <div class="level-card locked" data-level="moyen" data-status="locked">
+        <div class="level-num">02</div>
+        <div class="level-info">
+          <div class="level-title">Moyen</div>
+          <div class="level-meta">Débloqué après le niveau Facile.</div>
+        </div>
+        <div class="level-tag tag-locked" id="tag-moyen">Verrouillé</div>
+      </div>
+      <div class="level-card locked" data-level="difficile" data-status="locked">
+        <div class="level-num">03</div>
+        <div class="level-info">
+          <div class="level-title">Difficile</div>
+          <div class="level-meta">Débloqué après le niveau Moyen.</div>
+        </div>
+        <div class="level-tag tag-locked" id="tag-difficile">Verrouillé</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ÉTAPE 3 : QUIZ -->
+  <section id="screen-quiz" class="panel hidden">
+    <p class="q-progress" id="q-progress"></p>
+    <div class="q-bar"><div class="q-bar-fill" id="q-bar-fill"></div></div>
+    <p class="q-text" id="q-text"></p>
+    <div class="options" id="q-options"></div>
+  </section>
+
+  <!-- ÉTAPE 4 : RÉSULTAT -->
+  <section id="screen-result" class="panel hidden">
+    <p class="result-label" id="result-level"></p>
+    <p class="result-score" id="result-score"></p>
+    <p class="result-label" id="result-status"></p>
+    <p class="send-status" id="send-status"></p>
+    <div class="btn-row">
+      <button class="btn" id="btn-back-levels">Retour aux niveaux</button>
+    </div>
+  </section>
+
+  <footer>Fan quiz non officiel — Kuroko no Basket © Tadatoshi Fujimaki / Shueisha</footer>
+</div>
+
+<script>
+/* ============================================================
+   CONFIGURATION — à remplir avant de publier le site
+   ============================================================ */
+const CONFIG = {
+  // 1) Colle ici l'URL de ton webhook Discord (Paramètres du salon
+  //    > Intégrations > Webhooks > Nouveau webhook > Copier l'URL)
+  DISCORD_WEBHOOK_URL: "https://discord.com/api/webhooks/1517605118051356744/AEtfwWoh1Bq6czzwOU6gIPl4X-Ui5l2bz3buRmhRhcllLEtwTe5jrQIy47ztz7Z7s63N",
+
+  // 2) Optionnel : pour recevoir aussi par email sans backend,
+  //    crée un compte gratuit sur https://formsubmit.co et mets
+  //    ton adresse ici. Laisse vide si tu n'utilises que Discord.
+  FORMSUBMIT_EMAIL: "" // ex: "tonadresse@email.com"
+};
+
+/* ============================================================
+   BANQUE DE QUESTIONS
+   ============================================================ */
+const QUESTIONS = {
+  facile: [
+    { q: "Dans quel lycée joue Kuroko au début de la série ?", options: ["Seirin", "Touou", "Rakuzan", "Kaijo"], correct: 0 },
+    { q: "Quelle est la particularité principale de Kuroko sur le terrain ?", options: ["Il saute très haut", "Il est presque invisible", "Il tire à 3 points", "Il est très grand"], correct: 1 },
+    { q: "Comment s'appelle le capitaine de Seirin ?", options: ["Kagami Taiga", "Hyuga Junpei", "Riko Aida", "Izuki Shun"], correct: 1 },
+    { q: "Combien de membres comptait la 'Génération des Miracles' à l'origine (sans Kuroko) ?", options: ["3", "4", "5", "6"], correct: 2 },
+    { q: "Quel est le prénom du partenaire de Kuroko, le 'lumière' de son ombre ?", options: ["Aomine", "Kagami", "Kise", "Midorima"], correct: 1 },
+  ],
+  moyen: [
+    { q: "Quel surnom porte Aomine Daiki lié à sa puissance ?", options: ["Le Roi sans couronne", "Le Tigre", "La Lumière absolue", "Le Joueur le plus fort de Teiko"], correct: 3 },
+    { q: "Quel est l'objet fétiche que Midorima emporte toujours avec lui ?", options: ["Un porte-bonheur du jour", "Une montre", "Un bandana", "Des lunettes"], correct: 0 },
+    { q: "Quelle équipe Kise Ryota représente-t-il ?", options: ["Touou", "Shutoku", "Kaijo", "Yosen"], correct: 2 },
+    { q: "Quel est le surnom de Murasakibara Atsushi ?", options: ["Le Géant tendre", "Le Mur", "Le Roi sans couronne", "Le Tigre de Seirin"], correct: 1 },
+    { q: "Qui entraîne l'équipe de Seirin ?", options: ["Riko Aida", "Junpei Hyuga", "Kagetora Aida", "Shinji Koganei"], correct: 0 },
+    { q: "Quel lycée Akashi Seijuro dirige-t-il en tant que capitaine ?", options: ["Touou", "Rakuzan", "Yosen", "Shutoku"], correct: 1 },
+  ],
+  difficile: [
+    { q: "Quel est le nom de la technique de passe signature de Kuroko ?", options: ["Ankle Break", "Misdirection", "Formless Shot", "Zone"], correct: 1 },
+    { q: "Quel est le nom complet de l'état mental extrême atteint par certains joueurs en fin de série ?", options: ["La Zone", "L'Œil Empereur", "Le Mode Berserk", "La Vision Parfaite"], correct: 0 },
+    { q: "Qui était le capitaine de Teiko avant qu'Akashi ne développe sa double personnalité ?", options: ["Akashi lui-même", "Personne d'autre", "Nijimura Shuzo", "Haizaki Shogo"], correct: 2 },
+    { q: "Quel joueur remplace Kise dans l'équipe de départ de Teiko avant son arrivée ?", options: ["Haizaki Shogo", "Hanamiya Makoto", "Kasamatsu Yukio", "Imayoshi Shoichi"], correct: 0 },
+    { q: "Quel est le nom du tir signature de Midorima, exécuté depuis n'importe quelle distance ?", options: ["Formless Shot", "Perfect Copy", "High-arc 3-pointer", "Phantom Shot"], correct: 2 },
+    { q: "Quelle est la capacité copiée de Kise appelée en japonais ?", options: ["Zone", "Perfect Copy", "Misdirection", "Emperor Eye"], correct: 1 },
+  ]
+};
+
+const LEVEL_ORDER = ["facile", "moyen", "difficile"];
+const LEVEL_LABEL = { facile: "Facile", moyen: "Moyen", difficile: "Difficile" };
+
+/* ============================================================
+   ÉTAT
+   ============================================================ */
+let player = { nom: "", prenom: "", age: "" };
+let progress = JSON.parse(localStorage.getItem("knb-progress") || "{}");
+let currentLevel = null;
+let currentQuestions = [];
+let currentIndex = 0;
+let score = 0;
+let answerLocked = false;
+
+function saveProgress(){
+  localStorage.setItem("knb-progress", JSON.stringify(progress));
+}
+
+/* ============================================================
+   ENVOI DISCORD / EMAIL
+   ============================================================ */
+async function sendToDiscord(content){
+  if(!CONFIG.DISCORD_WEBHOOK_URL) return false;
+  try{
+    await fetch(CONFIG.DISCORD_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content })
+    });
+    return true;
+  }catch(e){
+    console.error("Erreur webhook Discord :", e);
+    return false;
+  }
+}
+
+async function sendToEmail(subject, message){
+  if(!CONFIG.FORMSUBMIT_EMAIL) return false;
+  try{
+    await fetch(`https://formsubmit.co/ajax/${CONFIG.FORMSUBMIT_EMAIL}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify({ subject, message })
+    });
+    return true;
+  }catch(e){
+    console.error("Erreur formsubmit :", e);
+    return false;
+  }
+}
+
+async function notify(content, subject){
+  const results = await Promise.all([
+    sendToDiscord(content),
+    sendToEmail(subject, content)
+  ]);
+  return results.some(Boolean);
+}
+
+/* ============================================================
+   ÉTAPE 1 — INSCRIPTION
+   ============================================================ */
+const screenRegister = document.getElementById("screen-register");
+const screenLevels = document.getElementById("screen-levels");
+const screenQuiz = document.getElementById("screen-quiz");
+const screenResult = document.getElementById("screen-result");
+
+document.getElementById("btn-register").addEventListener("click", async () => {
+  const nom = document.getElementById("reg-nom").value.trim();
+  const prenom = document.getElementById("reg-prenom").value.trim();
+  const age = document.getElementById("reg-age").value.trim();
+  const errorEl = document.getElementById("reg-error");
+
+  if(!nom || !prenom || !age){
+    errorEl.textContent = "Merci de remplir le nom, le prénom et l'âge.";
+    return;
+  }
+  if(Number(age) <= 0){
+    errorEl.textContent = "Âge invalide.";
+    return;
+  }
+  errorEl.textContent = "";
+
+  player = { nom, prenom, age };
+
+  notify(
+    `🏀 **Nouvelle inscription au quiz Kuroko no Basket**\n` +
+    `Nom : ${nom}\nPrénom : ${prenom}\nÂge : ${age}`,
+    "Nouvelle inscription — Quiz Kuroko no Basket"
+  );
+
+  document.getElementById("player-name").textContent = `${prenom} ${nom}`;
+  screenRegister.classList.add("hidden");
+  screenLevels.classList.remove("hidden");
+  refreshLevelCards();
+});
+
+/* ============================================================
+   ÉTAPE 2 — NIVEAUX
+   ============================================================ */
+function levelStatus(level){
+  if(progress[level] && progress[level].done) return "done";
+  const idx = LEVEL_ORDER.indexOf(level);
+  if(idx === 0) return "open";
+  const prevLevel = LEVEL_ORDER[idx - 1];
+  return (progress[prevLevel] && progress[prevLevel].done) ? "open" : "locked";
+}
+
+function refreshLevelCards(){
+  LEVEL_ORDER.forEach(level => {
+    const card = document.querySelector(`.level-card[data-level="${level}"]`);
+    const tag = document.getElementById(`tag-${level}`);
+    const status = levelStatus(level);
+    card.dataset.status = status;
+    card.classList.toggle("locked", status === "locked");
+    tag.className = "level-tag " + (status === "open" ? "tag-open" : status === "done" ? "tag-done" : "tag-locked");
+    tag.textContent = status === "open" ? "Ouvert" : status === "done" ? "Terminé" : "Verrouillé";
+  });
+}
+
+document.querySelectorAll(".level-card").forEach(card => {
+  card.addEventListener("click", () => {
+    const level = card.dataset.level;
+    if(levelStatus(level) === "locked") return;
+    startQuiz(level);
+  });
+});
+
+document.getElementById("btn-back-levels").addEventListener("click", () => {
+  screenResult.classList.add("hidden");
+  screenLevels.classList.remove("hidden");
+  refreshLevelCards();
+});
+
+/* ============================================================
+   ÉTAPE 3 — QUIZ
+   ============================================================ */
+function startQuiz(level){
+  currentLevel = level;
+  currentQuestions = QUESTIONS[level];
+  currentIndex = 0;
+  score = 0;
+  screenLevels.classList.add("hidden");
+  screenQuiz.classList.remove("hidden");
+  renderQuestion();
+}
+
+function renderQuestion(){
+  answerLocked = false;
+  const total = currentQuestions.length;
+  const item = currentQuestions[currentIndex];
+  document.getElementById("q-progress").textContent =
+    `${LEVEL_LABEL[currentLevel]} — Question ${currentIndex + 1} / ${total}`;
+  document.getElementById("q-bar-fill").style.width = `${(currentIndex / total) * 100}%`;
+  document.getElementById("q-text").textContent = item.q;
+
+  const optsWrap = document.getElementById("q-options");
+  optsWrap.innerHTML = "";
+  item.options.forEach((opt, i) => {
+    const btn = document.createElement("button");
+    btn.className = "opt";
+    btn.textContent = opt;
+    btn.addEventListener("click", () => selectAnswer(i, btn));
+    optsWrap.appendChild(btn);
+  });
+}
+
+function selectAnswer(i, btn){
+  if(answerLocked) return;
+  answerLocked = true;
+  const item = currentQuestions[currentIndex];
+  const allBtns = document.querySelectorAll("#q-options .opt");
+  allBtns.forEach(b => b.disabled = true);
+
+  if(i === item.correct){
+    btn.classList.add("correct");
+    score++;
+  }else{
+    btn.classList.add("wrong");
+    allBtns[item.correct].classList.add("correct");
+  }
+
+  setTimeout(() => {
+    currentIndex++;
+    if(currentIndex < currentQuestions.length){
+      renderQuestion();
+    }else{
+      finishQuiz();
+    }
+  }, 900);
+}
+
+/* ============================================================
+   ÉTAPE 4 — RÉSULTAT + ENVOI
+   ============================================================ */
+async function finishQuiz(){
+  const total = currentQuestions.length;
+  const passThreshold = Math.ceil(total * 0.5); // 50% pour valider le niveau
+  const passed = score >= passThreshold;
+
+  progress[currentLevel] = { done: passed, score, total };
+  saveProgress();
+
+  screenQuiz.classList.add("hidden");
+  screenResult.classList.remove("hidden");
+  document.getElementById("result-level").textContent = `Niveau ${LEVEL_LABEL[currentLevel]}`;
+  document.getElementById("result-score").textContent = `${score} / ${total}`;
+  document.getElementById("result-status").textContent = passed
+    ? "Niveau validé — suivant débloqué !"
+    : "Score insuffisant — réessaie pour débloquer la suite.";
+
+  const statusEl = document.getElementById("send-status");
+  statusEl.textContent = "Envoi du résultat…";
+
+  const message =
+    `🏀 **Résultat quiz Kuroko no Basket**\n` +
+    `Joueur : ${player.prenom} ${player.nom} (${player.age} ans)\n` +
+    `Niveau : ${LEVEL_LABEL[currentLevel]}\n` +
+    `Score : ${score} / ${total}\n` +
+    `Résultat : ${passed ? "✅ Validé" : "❌ Non validé"}`;
+
+  const ok = await notify(message, `Résultat quiz — ${LEVEL_LABEL[currentLevel]} — ${player.prenom} ${player.nom}`);
+  statusEl.textContent = ok
+    ? "Résultat envoyé."
+    : "Résultat non envoyé (webhook/email non configuré — voir CONFIG dans index.html).";
+}
+</script>
+</body>
+</html>
